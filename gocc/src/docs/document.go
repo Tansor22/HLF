@@ -35,7 +35,7 @@ func NewDocument(org string, content string, signs []string) Document {
 	}
 }
 
-func (d Document) IsSigned() bool {
+func (d *Document) IsSigned() bool {
 	for _, signRequired := range d.SignsRequired {
 		if !contains(d.SignedBy, signRequired) {
 			// no sign required

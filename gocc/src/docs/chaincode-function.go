@@ -40,6 +40,8 @@ func NewFunction(name string, args []string, stub shim.ChaincodeStubInterface) I
 	switch name {
 	case NewDoc:
 		output = &CreateNewDocumentFunction{ChaincodeFunction: defaultFunction}
+	case SignDoc:
+		output = &SignDocumentFunction{ChaincodeFunction: defaultFunction}
 	default:
 		output = &defaultFunction
 	}
