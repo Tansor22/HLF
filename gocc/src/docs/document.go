@@ -1,22 +1,38 @@
 package main
 
-import "time"
+import (
+	"github.com/google/uuid"
+	"time"
+)
 
 const (
 	WaitingForApproval = "WAITING_FOR_APPROVAL"
 	Approved           = "APPROVED"
 	Closed             = "CLOSED"
 	Rejected           = "REJECTED"
+	InitialStatus      = WaitingForApproval
 )
 
 type Document struct {
-	DocumentId     string    `json:"documentId"`
-	Organization   string    `json:"org"`
-	Date           time.Time `json:"date"`
-	Content        string    `json:"content"`
-	DocumentStatus string    `json:"status"`
-	SignsRequired  []string  `json:"signsRequired"`
-	SignedBy       []string  `json:"signedBy"`
+	Id            string    `json:"documentId"`
+	Organization  string    `json:"org"`
+	Date          time.Time `json:"date"`
+	Content       string    `json:"content"`
+	Status        string    `json:"status"`
+	SignsRequired []string  `json:"signsRequired"`
+	SignedBy      []string  `json:"signedBy"`
+}
+
+func NewDocument(org string, content string, signs []string) Document {
+	return Document{
+		Id:            uuid.NewString(),
+		Organization:  org,
+		Date:          time.Now(),
+		Content:       content,
+		Status:        InitialStatus,
+		SignsRequired: signs,
+		SignedBy:      make([]string, 0),
+	}
 }
 
 func (d Document) IsSigned() bool {
@@ -27,6 +43,6 @@ func (d Document) IsSigned() bool {
 		}
 	}
 	// document is signed
-	d.DocumentStatus = Approved
+	d.Status = Approved
 	return true
 }

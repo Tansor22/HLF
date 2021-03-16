@@ -8,10 +8,10 @@ import (
 
 func TestIsSigned(t *testing.T) {
 	dummyDoc := Document{
-		DocumentId:     "1",
-		Date:           time.Now(),
-		Content:        "Some content",
-		DocumentStatus: WaitingForApproval,
+		Id:      "1",
+		Date:    time.Now(),
+		Content: "Some content",
+		Status:  WaitingForApproval,
 	}
 	if !dummyDoc.IsSigned() {
 		fmt.Println("Docs with no signs should be considered approved")
