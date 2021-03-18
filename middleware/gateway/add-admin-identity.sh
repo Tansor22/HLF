@@ -3,7 +3,8 @@
 cd middleware
 # sh ./clean.sh
 rm -rf node_modules     &> /dev/null
-rm package-lock.json    &> /dev/null
+rm -rf gateway/user-wallet     &> /dev/null
+rm -rf package-lock.json    &> /dev/null
 npm install
 cd gateway
 

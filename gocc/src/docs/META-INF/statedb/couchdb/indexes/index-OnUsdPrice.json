@@ -1,0 +1,10 @@
+{
+    "index": {
+        "fields": [
+            "org"
+        ]
+    },
+    "ddoc": "indexOnOrganization",
+    "name": "indexOnOrganization",
+    "type": "json"
+}
