@@ -4,7 +4,7 @@
   "description": "Middleware for Hyperledger Fabric on Node.js",
   "main": "index.js",
   "scripts": {
-    "runServer": "cd rest && node app.js",
+    "runServer": "cd gateway && add-admin-identity.sh && cd ../rest && node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "lyutyy.mail@gmail.com",
