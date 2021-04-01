@@ -1,10 +1,13 @@
 const {setupGateway} = require("./tools");
 module.exports = {
     authenticateClient: async function (request, response, next) {
-        // брать юзер айди из заголовка, сетить реквестуу юзер ид
-        request.userId = 'Admin@acme.com'
-        next()
-        //throw new Error('Client unauthorized')
+        if (request.socket.authorized) {
+            request.userId = 'Admin@acme.com'
+            next()
+        } else {
+            // certificate incorrect
+            throw new Error("ClientUnauthorized")
+        }
     },
     connectToHLF: async function (request, response, next) {
         let profilePath = request.app.get('CONNECTION_PROFILE_PATH')

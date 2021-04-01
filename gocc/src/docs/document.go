@@ -14,6 +14,7 @@ const (
 )
 
 type Document struct {
+	//TODO: add title, description
 	Id            string    `json:"documentId"`
 	Organization  string    `json:"org"`
 	Date          time.Time `json:"date"`
