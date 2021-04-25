@@ -14,36 +14,37 @@ module.exports = {
         });
         user.save((err, user) => {
             if (err) {
-                res.status(500).send({message: err});
-                return;
+                res.logAndSendError(err, 'Error saving user data.')
+                return
             }
-            res.send({result: "Ok"});
+            res.logAndSendOk()
         });
     },
     signIn: (request, response, next) => {
         User.findOne({
-            email: request.body.email
+            username: request.body.username
         }).exec((err, user) => {
             if (err) {
                 next(err)
             } else if (!user) {
-                return response.status(403).send({error: "UserNotFound"})
+                return response.logAndSendError(403, 'UserNotFound', 'A user with the username provided doesn\'t exist.')
             } else {
                 const passwordIsValid = bcrypt.compareSync(
                     request.body.password,
                     user.password
                 )
                 if (!passwordIsValid) {
-                    return response.status(403).send({error: "ClientUnauthorized"})
+                    return response.logAndSendError(403, 'ClientUnauthorized', 'Password provided is not valid.')
                 }
                 const token = jwt.sign({id: user.id}, config.secret, {
                     expiresIn: 86400 // 24 hours
                 });
-                response.status(200).send({
+
+                return response.logAndSendOk({
                     username: user.username,
                     email: user.email,
                     accessToken: token
-                });
+                })
             }
         })
 

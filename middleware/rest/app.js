@@ -13,6 +13,8 @@ app.set('FILESYSTEM_WALLET_PATH', '../gateway/user-wallet')
 app.use(bodyParser.json())
 
 // Interceptors
+// todo should be configuring, but actual middleware
+app.use(middlewares.common.configure)
 app.use(middlewares.common.verifyCert)
 
 // Routes
@@ -25,7 +27,8 @@ app.use(middlewares.common.errorHandler)
 // Configure server
 const key = fs.readFileSync(__dirname + '/certs/server-key.pem');
 const cert = fs.readFileSync(__dirname + '/certs/server-cert.pem');
-const host = 'hlf-gtw.local'
+//const host = 'hlf-gtw.local'
+const host = 'localhost'
 const port = 443
 const options = {
     key,

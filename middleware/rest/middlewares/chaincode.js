@@ -5,8 +5,8 @@ module.exports = {
     connectToHLF: function (request, response, next) {
         User.findById(request.userId).exec((err, user) => {
             if (err) {
-                response.status(500).send({error: err});
-                return;
+                response.logAndSendError(err, 'User not found.')
+                return
             }
             let profilePath = request.app.get('CONNECTION_PROFILE_PATH')
             let walletPath = request.app.get('FILESYSTEM_WALLET_PATH')

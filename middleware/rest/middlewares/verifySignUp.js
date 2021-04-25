@@ -8,13 +8,13 @@ module.exports = {
             username: req.body.username
         }).exec((err, user) => {
             if (err) {
-                res.status(500).send({message: err});
-                return;
+                res.logAndSendError(err, 'Mongo exception.')
+                return
             }
 
             if (user) {
-                res.status(400).send({error: "UsernameAlreadyInUse"});
-                return;
+                res.logAndSendError(400, 'UsernameAlreadyInUse', 'There is an existing user with login specified.')
+                return
             }
 
             // Email
@@ -22,13 +22,13 @@ module.exports = {
                 email: req.body.email
             }).exec((err, user) => {
                 if (err) {
-                    res.status(500).send({message: err});
+                    res.logAndSendError(err, 'Mongo exception.')
                     return;
                 }
 
                 if (user) {
-                    res.status(400).send({message: "EmailAlreadyInUse"});
-                    return;
+                    res.logAndSendError(400, 'EmailAlreadyInUse', 'There is an existing user with email specified.')
+                    return
                 }
 
                 next();

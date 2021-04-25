@@ -6,12 +6,12 @@ module.exports = {
         let token = req.headers["x-access-token"];
 
         if (!token) {
-            return res.status(403).send({error: "NoTokenProvided"});
+            return res.logAndSendError(403, 'NoTokenProvided', 'Header \'x-access-token\' is not specified.')
         }
 
         jwt.verify(token, config.secret, (err, decoded) => {
             if (err) {
-                return res.status(401).send({error: "UserUnauthorized"});
+                return res.logAndSendError(401, 'UserUnauthorized', 'Invalid token received.')
             }
             req.userId = decoded.id
             next();
