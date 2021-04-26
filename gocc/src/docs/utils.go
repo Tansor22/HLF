@@ -22,6 +22,6 @@ func errorResponse(err string, code uint) peer.Response {
 }
 
 func successResponse(dat string) peer.Response {
-	success := "{\"response\": " + dat + ", \"code\": 0 }"
+	success := "{\"payload\": " + dat + ", \"code\": 0 }"
 	return shim.Success([]byte(success))
 }

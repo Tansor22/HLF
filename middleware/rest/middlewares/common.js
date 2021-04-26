@@ -8,7 +8,7 @@ module.exports = {
             let richMsg = status === 200 ? '<green>' + msg + '</green>>' : '<red>' + msg + '</red>>'
             richConsole.log(richMsg)
             // send
-            response.status(status).send(data)
+            response.status(status).send({payload: data, code: status === 200 ? 'Ok' : 'Nok'})
         };
         response.logAndSendOk = (data) => {
             response.logAndSend(200, data ? data : {result: 'Ok'})
