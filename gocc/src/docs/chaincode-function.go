@@ -9,9 +9,9 @@ import (
 
 const (
 	// function names for dispatching
-	NewDoc  = "new-doc"
-	SignDoc = "sign-doc"
-	GetDocs = "get-docs"
+	NewDoc    = "new-doc"
+	ChangeDoc = "change-doc"
+	GetDocs   = "get-docs"
 )
 
 type IChaincodeFunction interface {
@@ -39,8 +39,8 @@ func NewFunction(name string, args []string, stub shim.ChaincodeStubInterface) I
 	switch name {
 	case NewDoc:
 		output = &CreateNewDocumentFunction{ChaincodeFunction: defaultFunction}
-	case SignDoc:
-		output = &SignDocumentFunction{ChaincodeFunction: defaultFunction}
+	case ChangeDoc:
+		output = &ChangeDocumentFunction{ChaincodeFunction: defaultFunction}
 	case GetDocs:
 		output = &GetDocumentsFunction{ChaincodeFunction: defaultFunction}
 	default:

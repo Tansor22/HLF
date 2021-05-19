@@ -8,11 +8,14 @@ import (
 
 func PopulateBlockchain(stub *shimtest.MockStub) {
 	for i := 0; i < 10; i++ {
-		orgName := "orgName"
+		title := "title" + string(rune(i))
+		_type := "type" + string(rune(i))
+		owner := "owner" + string(rune(i))
+		group := "group" + string(rune(i))
 		content := "Some Content" + string(rune(i))
 		signs := [3]string{"1", "2", "3"}
 		marshalledSigns, _ := json.Marshal(signs)
-		ccArgs := SetupArgs("new-doc", orgName, content, string(marshalledSigns))
+		ccArgs := SetupArgs("new-doc", title, _type, owner, group, content, string(marshalledSigns))
 		_ = stub.MockInvoke("TxUUID", ccArgs)
 	}
 }

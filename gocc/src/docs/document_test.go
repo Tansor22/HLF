@@ -11,7 +11,7 @@ func TestIsSigned(t *testing.T) {
 		Id:      "1",
 		Date:    time.Now(),
 		Content: "Some content",
-		Status:  WaitingForApproval,
+		Status:  Processing,
 	}
 	if !dummyDoc.IsSigned() {
 		fmt.Println("Docs with no signs should be considered approved")

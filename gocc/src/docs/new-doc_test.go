@@ -8,17 +8,20 @@ import (
 
 func TestCreateNewDocumentFunction(t *testing.T) {
 	stub := InitChaincode(t)
-	orgName := "orgName"
+	title := "title"
+	_type := "type"
+	owner := "owner"
+	group := "group"
 	content := "Some Content"
 	signs := [3]string{"1", "2", "3"}
 	marshalledSigns, _ := json.Marshal(signs)
-	ccArgs := SetupArgs("new-doc", orgName, content, string(marshalledSigns))
+	ccArgs := SetupArgs("new-doc", title, _type, owner, group, content, string(marshalledSigns))
 
 	response := stub.MockInvoke("TxUUID", ccArgs)
 	DumpResponse(ccArgs, response, true)
 
 	tree := ParseJson(response.GetPayload())
-	documentId := string(tree.GetStringBytes("response", "documentId"))
+	documentId := string(tree.GetStringBytes("payload", "documentId"))
 
 	t.Logf("Id returned = %s", documentId)
 
@@ -33,9 +36,9 @@ func TestCreateNewDocumentFunction(t *testing.T) {
 		t.Logf("Expected id %s, but got %s", documentId, documentAdded.Id)
 	}
 	// correct org
-	if documentAdded.Organization != orgName {
+	if documentAdded.Group != group {
 		t.Fail()
-		t.Logf("Expected organization %s, but got %s", orgName, documentAdded.Organization)
+		t.Logf("Expected group %s, but got %s", group, documentAdded.Group)
 	}
 	// correct signs
 	if reflect.DeepEqual(documentAdded.SignsRequired, signs) {
