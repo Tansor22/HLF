@@ -8,13 +8,13 @@ import (
 
 const query = `{
     "selector": {
-       "org": "%s"
+       "group": "%s"
     }
  }`
 
 type GetDocumentsFunction struct {
 	ChaincodeFunction
-	Organization string
+	Group string
 }
 
 type GetDocumentsResponse struct {
@@ -22,11 +22,11 @@ type GetDocumentsResponse struct {
 }
 
 func (f *GetDocumentsFunction) BindParams(args []string) {
-	f.Organization = args[0]
+	f.Group = args[0]
 }
 
 func (f *GetDocumentsFunction) Execute() peer.Response {
-	query := fmt.Sprintf(query, f.Organization)
+	query := fmt.Sprintf(query, f.Group)
 	documents := f.ExecuteRichQuery(query)
 	response := GetDocumentsResponse{make([]Document, len(documents))}
 	for i, document := range documents {

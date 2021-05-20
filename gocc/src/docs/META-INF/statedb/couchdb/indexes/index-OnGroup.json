@@ -1,0 +1,10 @@
+{
+    "index": {
+        "fields": [
+            "group"
+        ]
+    },
+    "ddoc": "indexOnGroup",
+    "name": "indexOnGroup",
+    "type": "json"
+}

@@ -10,3 +10,9 @@ chain.sh instantiate
 
 !!UPGRADE!!!
 chain.sh upgrade-auto
+
+
+vagrant up
+vagrant ssh
+
+deploy-docs.sh

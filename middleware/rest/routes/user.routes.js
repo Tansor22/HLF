@@ -16,10 +16,10 @@ module.exports = function (app) {
         ],
         userController.getDocuments)
 
-    app.post('/api/chaincode/signDoc',
+    app.post('/api/chaincode/changeDoc',
         [
             authJwt.verifyToken,
             chaincode.connectToHLF
         ],
-        userController.signDocument)
+        userController.changeDocument)
 }

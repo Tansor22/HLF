@@ -14,6 +14,7 @@ module.exports = {
                 return res.logAndSendError(401, 'UserUnauthorized', 'Invalid token received.')
             }
             req.userId = decoded.id
+            req.group = decoded.group
             next();
         });
     }

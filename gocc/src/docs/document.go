@@ -26,7 +26,7 @@ const (
 
 type Change struct {
 	// Dean
-	Member string `json:"documentId"`
+	Member string `json:"member"`
 	// REJECT
 	Type string `json:"type"`
 	// 21.05.2021

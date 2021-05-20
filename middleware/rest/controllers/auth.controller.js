@@ -7,8 +7,8 @@ const bcrypt = require("bcryptjs");
 
 module.exports = {
     signUp: (req, res) => {
+        // todo add member, group
         const user = new User({
-            username: req.body.username,
             email: req.body.email,
             password: bcrypt.hashSync(req.body.password, 8)
         });
@@ -22,7 +22,7 @@ module.exports = {
     },
     signIn: (request, response, next) => {
         User.findOne({
-            username: request.body.username
+            email: request.body.email
         }).exec((err, user) => {
             if (err) {
                 next(err)
@@ -36,12 +36,12 @@ module.exports = {
                 if (!passwordIsValid) {
                     return response.logAndSendError(403, 'ClientUnauthorized', 'Password provided is not valid.')
                 }
-                const token = jwt.sign({id: user.id}, config.secret, {
+                const token = jwt.sign({id: user.id, member: user.member, email: user.email, group: user.group}, config.secret, {
                     expiresIn: 86400 // 24 hours
                 });
 
                 return response.logAndSendOk({
-                    username: user.username,
+                    member: user.member,
                     email: user.email,
                     accessToken: token
                 })

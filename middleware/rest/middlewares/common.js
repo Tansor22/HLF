@@ -4,11 +4,12 @@ module.exports = {
     configure: async function (request, response, next) {
         response.logAndSend = (status, data) => {
             // log
-            let msg = `\tEndpoint: ${request.path}\n\tRequest: ${stringify(request.body)}\n\tResponse (Code:${status}): ${stringify(data)}\n`
+            const resp = data.payload ? data : {payload: data, code: status === 200 ? 'Ok' : 'Nok'}
+            let msg = `\tEndpoint: ${request.path}\n\tRequest: ${stringify(request.body)}\n\tResponse (Code:${status}): ${stringify(resp)}\n`
             let richMsg = status === 200 ? '<green>' + msg + '</green>>' : '<red>' + msg + '</red>>'
             richConsole.log(richMsg)
             // send
-            response.status(status).send({payload: data, code: status === 200 ? 'Ok' : 'Nok'})
+            response.status(status).send(resp)
         };
         response.logAndSendOk = (data) => {
             response.logAndSend(200, data ? data : {result: 'Ok'})
@@ -32,8 +33,10 @@ module.exports = {
         if (request.socket.authorized) {
             next()
         } else {
+            // todo fix
+            next()
             // certificate incorrect
-            return response.logAndSendError(403, 'ClientUnauthorized', 'Client app certificate is not valid.')
+           // return response.logAndSendError(403, 'ClientUnauthorized', 'Client app certificate is not valid.')
         }
     },
     // triggered by errors in async only in express 5, if use below should get wrapper with try { await willThrow() } catch (e) { next(e) }

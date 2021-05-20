@@ -2,37 +2,19 @@ const db = require("../models");
 const User = db.user;
 
 module.exports = {
-    checkDuplicateUsernameOrEmail: (req, res, next) => {
-        // Username
+    checkDuplicateEmail: (req, res, next) => {
+        // Email
         User.findOne({
-            username: req.body.username
+            email: req.body.email
         }).exec((err, user) => {
             if (err) {
-                res.logAndSendError(err, 'Mongo exception.')
-                return
+                return res.logAndSendError(err, 'Mongo exception.')
             }
 
             if (user) {
-                res.logAndSendError(400, 'UsernameAlreadyInUse', 'There is an existing user with login specified.')
-                return
+                return res.logAndSendError(400, 'EmailAlreadyInUse', 'There is an existing user with email specified.')
             }
-
-            // Email
-            User.findOne({
-                email: req.body.email
-            }).exec((err, user) => {
-                if (err) {
-                    res.logAndSendError(err, 'Mongo exception.')
-                    return;
-                }
-
-                if (user) {
-                    res.logAndSendError(400, 'EmailAlreadyInUse', 'There is an existing user with email specified.')
-                    return
-                }
-
-                next();
-            });
+            next();
         });
     }
 }
