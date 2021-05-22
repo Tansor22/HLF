@@ -22,6 +22,7 @@ const (
 	GraduatedExpelling     = "GraduatedExpelling"
 	PracticePermission     = "PracticePermission"
 	GraduationThesisTopics = "GraduationThesisTopics"
+	Unknown                = "Unknown"
 )
 
 type Change struct {
@@ -45,6 +46,7 @@ type Document struct {
 	// GraduatedExpelling - Представление-<группа(ы)>-отчисление
 	// PracticePermission - Приказ о допуске на практику студентов
 	// GraduationThesisTopics - Приказ о темах выпускных квалификационных работ
+	// Unknown - неизвестный тип
 	Type string `json:"type"`
 	// Дата создания
 	Date time.Time `json:"date"`

@@ -27,7 +27,7 @@ module.exports = {
             if (err) {
                 next(err)
             } else if (!user) {
-                return response.logAndSendError(403, 'UserNotFound', 'A user with the username provided doesn\'t exist.')
+                return response.logAndSendError(403, 'UserNotFound', 'A user with the email provided doesn\'t exist.')
             } else {
                 const passwordIsValid = bcrypt.compareSync(
                     request.body.password,

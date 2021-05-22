@@ -15,6 +15,8 @@ module.exports = {
             }
             req.userId = decoded.id
             req.group = decoded.group
+            req.member = decoded.member
+            req.email = decoded.email
             next();
         });
     }

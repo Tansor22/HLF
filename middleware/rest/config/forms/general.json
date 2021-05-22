@@ -1,0 +1,61 @@
+[
+  {
+    "_id": "doc_title_hint",
+    "text": "Название документа",
+    "type": 1
+  },
+  {
+    "_id": "doc_title_edit",
+    "is_required": true,
+    "hint": "Название документа",
+    "type": 2
+  },
+  {
+    "_id": "doc_type_spinner",
+    "text": "Тип документа",
+    "list": [
+      {
+        "index": 0,
+        "index_text": "Представление-отчисление"
+      },
+      {
+        "index": 1,
+        "index_text": "Приказ о допуске на практику"
+      },
+      {
+        "index": 2,
+        "index_text": "Приказ о темах выпускных работ"
+      },
+      {
+        "index": 3,
+        "index_text": "Другое"
+      }
+    ],
+    "type": 3
+  },
+  {
+    "_id": "doc_content_hint",
+    "text": "Текст документа",
+    "type": 1
+  },
+  {
+    "_id": "doc_content_edit",
+    "is_required": true,
+    "hint": "Название документа",
+    "type": 12
+  },
+  {
+    "_id": "doc_signs_multi_spinner",
+    "hint": "Выберите подписи",
+    "text": "Подписи",
+    "list": [
+
+    ],
+    "type": 11
+  },
+  {
+    "_id": "submit_button",
+    "text": "Ок",
+    "type": 10
+  }
+]
