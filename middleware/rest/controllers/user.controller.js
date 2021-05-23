@@ -13,15 +13,18 @@ function parseHLFError(e) {
 
 module.exports = {
     getFormConfig: async function (request, response) {
-        const fileContent = fs.readFileSync(path.resolve(__dirname, '../config/forms/general.json')).toString()
-        const formConfig = JSON.parse(fileContent)
+        const docTypes = request.app.get('DOC_TYPES')
+        const formConfig = docTypes[request.body.documentType || 'General']
+        if (formConfig === undefined) {
+            return response.logAndSendError('NoSuchForm', 'There is no form config for doc type ' + request.body.documentType + '.')
+        }
         User.find({group: request.group, member: {$ne: request.member}}).exec((err, users) => {
             if (err) {
                 return response.logAndSendError('UnexpectedError', 'Unexpected error, see middleware logs for details.')
             } else if (!(Array.isArray(users) && users.length)) {
-                return response.logAndSendError('NoUsersInGroup', 'There are no any users in group ' + request.group)
+                return response.logAndSendError('NoUsersInGroup', 'There are no any users in group ' + request.group + '.')
             } else {
-                // todo handle doc type
+                // substitute signs
                 let docSignsConfigIndex = formConfig.findIndex(it => it._id === 'doc_signs_multi_spinner')
                 if (docSignsConfigIndex !== -1) {
                     formConfig[docSignsConfigIndex].list = []

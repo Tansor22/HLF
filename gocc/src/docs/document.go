@@ -22,7 +22,7 @@ const (
 	GraduatedExpelling     = "GraduatedExpelling"
 	PracticePermission     = "PracticePermission"
 	GraduationThesisTopics = "GraduationThesisTopics"
-	Unknown                = "Unknown"
+	General                = "General"
 )
 
 type Change struct {

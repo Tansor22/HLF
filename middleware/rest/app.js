@@ -2,10 +2,40 @@ const express = require('express');
 const https = require('https');
 const bodyParser = require('body-parser');
 const middlewares = require("./middlewares");
+const path = require('path')
 const fs = require("fs");
 const app = express();
 
 // Configure app
+const formsDir = path.resolve(__dirname, './config/forms')
+const docTypes = {}
+fs.readdir(formsDir, (err, files) => {
+    if (err) {
+        return console.log('Unable to scan directory: ' + err);
+    }
+    files.forEach(file => {
+        const postfixIndex = file.indexOf('.json')
+        if (file.startsWith('_doc_type_') && postfixIndex !== -1) {
+            const fileContent = fs.readFileSync(path.resolve(formsDir, file), 'utf-8').toString()
+            docTypes[file.substring('_doc_type_'.length, postfixIndex)] = JSON.parse(fileContent)
+        }
+    });
+    // substitute doc types
+    let docTypesArr = Object.keys(docTypes)
+    docTypesArr.forEach(type => {
+        let docTypesConfigIndex = docTypes[type].findIndex(it => it._id === 'doc_type_spinner')
+        if (docTypesConfigIndex !== -1) {
+            docTypes[type][docTypesConfigIndex].list = []
+            for (let i = 0; i < docTypesArr.length; i++) {
+                docTypes[type][docTypesConfigIndex].list.push({
+                    index: i, index_text: docTypesArr[i]
+                })
+            }
+        }
+    })
+    console.log("Doc types parsed: " + Object.keys(docTypes))
+})
+app.set('DOC_TYPES', docTypes)
 app.set('CONNECTION_PROFILE_PATH', '../profiles/dev-connection.yaml')
 app.set('NETWORK_NAME', 'airlinechannel')
 app.set('CONTRACT_ID', 'docs')
