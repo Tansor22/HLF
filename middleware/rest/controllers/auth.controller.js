@@ -43,7 +43,8 @@ module.exports = {
                 return response.logAndSendOk({
                     member: user.member,
                     email: user.email,
-                    accessToken: token
+                    accessToken: token,
+                    avatar: user.avatar
                 })
             }
         })

@@ -7,6 +7,7 @@ const User = mongoose.model(
         member: String,
         // Administration
         group: String,
+        avatar: String,
         // using during auth
         email: String,
         password: String

@@ -42,7 +42,7 @@ module.exports = {
             let contract = await network.getContract(request.app.get('CONTRACT_ID'));
             let {body} = request
             let responseHLF = await contract.submitTransaction('new-doc',
-                body.title, body.type, body.owner, body.group, body.content,
+                body.title, body.type || "Unknown", body.owner, body.group, body.content,
                 JSON.stringify(body.signsRequired))
             response.logAndSendOk(JSON.parse(responseHLF))
         } catch (e) {
@@ -69,8 +69,8 @@ module.exports = {
             let contract = await network.getContract(request.app.get('CONTRACT_ID'));
             let {body} = request
             let responseHLF = await contract.submitTransaction('change-doc',
-                body.documentId, body.member, body.type, body.details)
-            response.send(responseHLF)
+                body.documentId, body.member, body.type, body.details || "")
+            response.logAndSendOk(JSON.parse(responseHLF))
         } catch (e) {
             return response.logAndSendError("HLFError", e.message)
         }
