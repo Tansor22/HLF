@@ -25,7 +25,7 @@ module.exports = {
                 return response.logAndSendError('NoUsersInGroup', 'There are no any users in group ' + request.group + '.')
             } else {
                 // substitute signs
-                let docSignsConfigIndex = formConfig.findIndex(it => it._id === 'doc_signs_multi_spinner')
+                let docSignsConfigIndex = formConfig.findIndex(it => it._id === 'signs')
                 if (docSignsConfigIndex !== -1) {
                     formConfig[docSignsConfigIndex].list = []
                     for (let i = 0; i < users.length; i++) {
@@ -45,7 +45,7 @@ module.exports = {
             let contract = await network.getContract(request.app.get('CONTRACT_ID'));
             let {body} = request
             let responseHLF = await contract.submitTransaction('new-doc',
-                body.title, body.type || "Unknown", body.owner, body.group, body.content,
+                body.title, body.type || "Unknown", body.owner, body.group, JSON.stringify(body.attributes),
                 JSON.stringify(body.signsRequired))
             response.logAndSendOk(JSON.parse(responseHLF))
         } catch (e) {
@@ -59,7 +59,17 @@ module.exports = {
             let contract = await network.getContract(request.app.get('CONTRACT_ID'));
             let {body} = request
             let responseHLF = await contract.evaluateTransaction('get-docs', body.group)
-            response.logAndSendOk(JSON.parse(responseHLF))
+            let docsResponse = JSON.parse(responseHLF)
+            if (body.withContent === true) {
+                const templates = request.app.get('TEMPLATES')
+                // todo
+                for (let i = 0; i < docsResponse.payload.documents.length; i++)
+                    if (docsResponse.payload.documents[i].type === 'General') {
+                        docsResponse.payload.documents[i].attributes.content =
+                            templates['General'](docsResponse.payload.documents[i].attributes)
+                    }
+            }
+            response.logAndSendOk(docsResponse)
         } catch (e) {
             return response.logAndSendError("HLFError", parseHLFError(e.message))
         }

@@ -30,7 +30,7 @@ func (f *GetDocumentsFunction) Execute() peer.Response {
 	documents := f.ExecuteRichQuery(query)
 	response := GetDocumentsResponse{make([]Document, len(documents))}
 	for i, document := range documents {
-		_ = json.Unmarshal(document, &response.Documents[i])
+		response.Documents[i], _ = DocumentFromJson(document)
 	}
 	marshalledResponse, _ := json.Marshal(response)
 	return successResponse(string(marshalledResponse))

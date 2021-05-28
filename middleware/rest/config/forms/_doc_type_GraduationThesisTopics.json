@@ -1,1 +1,117 @@
-[]
+[
+  {
+    "_id": "title_hint",
+    "text": "Название документа",
+    "type": 1
+  },
+  {
+    "_id": "title",
+    "is_required": true,
+    "hint": "Название документа",
+    "type": 2
+  },
+  {
+    "_id": "group_hint",
+    "text": "Группа",
+    "type": 1
+  },
+  {
+    "_id": "group",
+    "is_required": true,
+    "hint": "Группа",
+    "type": 2
+  },
+  {
+    "_id": "speciality_hint",
+    "text": "Специальность",
+    "type": 1
+  },
+  {
+    "_id": "speciality",
+    "is_required": true,
+    "hint": "Специальность",
+    "type": 2
+  },
+  {
+    "_id": "study_type",
+    "text": "Тип обучения",
+    "selected_value": 0,
+    "is_required": true,
+    "list": [
+      {
+        "index": 0,
+        "index_text": "Очный"
+      },
+      {
+        "index": 1,
+        "index_text": "Заочный"
+      }
+    ],
+    "type": 4
+  },
+  {
+    "_id": "student",
+    "form": [
+      {
+        "_id": "fio_hint",
+        "text": "ФИО студента",
+        "type": 1
+      },
+      {
+        "_id": "fio",
+        "hint": "ФИО студента",
+        "max_length": 3,
+        "type": 12
+      },
+      {
+        "_id": "thesis_hint",
+        "text": "Тема",
+        "type": 1
+      },
+      {
+        "_id": "thesis",
+        "hint": "Тема",
+        "max_length": 3,
+        "type": 12
+      },
+      {
+        "_id": "head_fio_hint",
+        "text": "Фио науч. рук-а",
+        "type": 1
+      },
+      {
+        "_id": "head_fio",
+        "hint": "Фио науч. рук-а",
+        "max_length": 3,
+        "type": 12
+      },
+      {
+        "_id": "space",
+        "type": 6
+      },
+      {
+        "_id": "add_student",
+        "text": "Добавить студента",
+        "type": 9
+      }
+    ],
+    "type": 15
+  },
+  {
+    "_id": "signs",
+    "hint": "Выберите подписи",
+    "text": "Подписи",
+    "list": [
+    ],
+    "type": 11
+  },
+  {
+    "_id": "space",
+    "type": 6
+  },
+  {
+    "_id": "submit",
+    "text": "Ок",
+    "type": 10
+  }
+]

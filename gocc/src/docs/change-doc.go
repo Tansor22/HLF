@@ -26,8 +26,7 @@ func (f *ChangeDocumentFunction) BindParams(args []string) {
 func (f *ChangeDocumentFunction) Execute() peer.Response {
 	documentKey := "doc" + f.Id
 	documentJson, _ := f.stub.GetState(documentKey)
-	var document Document
-	_ = json.Unmarshal(documentJson, &document)
+	document, _ := DocumentFromJson(documentJson)
 	// register change
 	change := NewChange(f.Member, f.Type, f.Details)
 	if err := document.RegisterChange(change); err != nil {

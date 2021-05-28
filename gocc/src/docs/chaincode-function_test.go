@@ -12,7 +12,7 @@ func PopulateBlockchain(stub *shimtest.MockStub) {
 		_type := "type" + string(rune(i))
 		owner := "owner" + string(rune(i))
 		group := "group" + string(rune(i))
-		content := "Some Content" + string(rune(i))
+		content := "Some attrsJson" + string(rune(i))
 		signs := [3]string{"1", "2", "3"}
 		marshalledSigns, _ := json.Marshal(signs)
 		ccArgs := SetupArgs("new-doc", title, _type, owner, group, content, string(marshalledSigns))

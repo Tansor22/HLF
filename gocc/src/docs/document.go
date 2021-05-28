@@ -19,10 +19,14 @@ const (
 	Edit    = "EDIT"
 	Approve = "APPROVE"
 	// doc.type
-	GraduatedExpelling     = "GraduatedExpelling"
-	PracticePermission     = "PracticePermission"
-	GraduationThesisTopics = "GraduationThesisTopics"
-	General                = "General"
+	GraduatedExpelling         = "GraduatedExpelling"
+	PracticePermission         = "PracticePermission"
+	TypeGraduationThesisTopics = "GraduationThesisTopics"
+	General                    = "General"
+	// study types
+	FullTime  = "FULL_TIME"  // очный
+	PartTime  = "PART_TIME"  // очно-заочный
+	SelfStudy = "SELF_STUDY" // заочный
 )
 
 type Change struct {
@@ -34,6 +38,57 @@ type Change struct {
 	Date time.Time `json:"date"`
 	// Отсутствует студент Иванов И.И.
 	Details string `json:"details"`
+}
+
+// todo superclass, should be extended
+type Student struct {
+	// all string should be substitute to pointers?
+	FullName        *string `json:"fullName"`
+	Nationality     string  `json:"nationality"`
+	Group           string  `json:"group"`
+	OnGovernmentPay *bool   `json:"onGovernmentPay"` // основа обучения бюджет=true\внебюджет=false
+	// todo move to GraduatedExpellingStudent
+	HasHonoursDegree *bool `json:"hasHonoursDegree"`
+}
+
+func (s *Student) GetCommonInfo() *Student {
+	return s
+}
+
+type IStudent interface {
+	// Текст документа
+	GetCommonInfo() *Student
+}
+
+type GraduationThesisTopicsStudent struct {
+	CommonInfo              Student `json:"commonInfo"`
+	Topic                   string  `json:"topic"`
+	AcademicAdvisorFullName Student `json:"academicAdvisorFullName"`
+}
+
+type IDocAttributes interface {
+	// Текст документа
+	GenerateContent()
+}
+
+type DocAttributes struct {
+	// Текст документа
+	Content string `json:"content"`
+}
+
+func (attrs *DocAttributes) GenerateContent() {
+}
+
+type GraduationThesisTopicsAttributes struct {
+	Content    string                          `json:"content"`
+	Group      string                          `json:"group"`
+	Speciality string                          `json:"speciality"`
+	StudyType  string                          `json:"studyType"`
+	Students   []GraduationThesisTopicsStudent `json:"students"`
+}
+
+func (attrs *GraduationThesisTopicsAttributes) GenerateContent() {
+	attrs.Content = "generated via pattern"
 }
 
 type Document struct {
@@ -48,10 +103,10 @@ type Document struct {
 	// GraduationThesisTopics - Приказ о темах выпускных квалификационных работ
 	// Unknown - неизвестный тип
 	Type string `json:"type"`
+	// кастомные элементы структуры текста
+	Attributes IDocAttributes `json:"attributes"`
 	// Дата создания
 	Date time.Time `json:"date"`
-	// Текст документа
-	Content string `json:"content"`
 	// PROCESSING - на рассмотрении (не подписан и не отклонен)
 	// APPROVED - подписан всеми участниками, финальный статус
 	// REJECTED - отклонен участником с комментарием
@@ -95,7 +150,39 @@ func NewChange(member string, _type string, details string) Change {
 		Details: details,
 	}
 }
-func NewDocument(title string, _type string, owner string, group string, content string, signs []string) Document {
+
+func AttributesFromJson(_type string, attrsJson string) (IDocAttributes, error) {
+	switch _type {
+	case TypeGraduationThesisTopics:
+		var attrs GraduationThesisTopicsAttributes
+		e := json.Unmarshal([]byte(attrsJson), &attrs)
+		attrs.GenerateContent()
+		return &attrs, e
+	default:
+		var attrs DocAttributes
+		e := json.Unmarshal([]byte(attrsJson), &attrs)
+		return &attrs, e
+	}
+}
+
+func DocumentFromJson(docJson []byte) (Document, error) {
+	var output Document
+	_ = json.Unmarshal(docJson, &output)
+	tree := ParseJson(docJson)
+	attrsJson := tree.Get("attributes").String()
+	attrs, e := AttributesFromJson(output.Type, attrsJson)
+	if e != nil {
+		return Document{}, e
+	}
+	output.Attributes = attrs
+	return output, nil
+}
+
+func NewDocument(title string, _type string, owner string, group string, attrJson string, signs []string) (Document, error) {
+	attrs, e := AttributesFromJson(_type, attrJson)
+	if e != nil {
+		return Document{}, e
+	}
 	return Document{
 		Id:            uuid.NewString(),
 		Title:         title,
@@ -103,12 +190,12 @@ func NewDocument(title string, _type string, owner string, group string, content
 		Owner:         owner,
 		Group:         group,
 		Date:          time.Now(),
-		Content:       content,
+		Attributes:    attrs,
 		Status:        InitialStatus,
 		SignsRequired: signs,
 		SignedBy:      make([]string, 0),
 		Changes:       make([]Change, 0),
-	}
+	}, nil
 }
 
 func (d *Document) IsSigned() bool {
@@ -154,7 +241,7 @@ func (d *Document) RegisterChange(change Change) error {
 			d.Changes = append(d.Changes, change)
 		}
 	case Edit:
-		// todo how to process edit?
+		// todo support Edit change.details == new attributes
 		return errors.New("Not supported change type yet:" + change.Type)
 	}
 	return nil

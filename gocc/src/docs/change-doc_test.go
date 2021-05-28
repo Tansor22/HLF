@@ -29,7 +29,8 @@ func TestSignDocumentFunction(t *testing.T) {
 	// checking document state in blockchain
 	documentBytes, _ := stub.GetState("doc" + documentId)
 	var document Document
-	if err := json.Unmarshal(documentBytes, &document); err != nil {
+	var err error
+	if document, err = DocumentFromJson(documentBytes); err != nil {
 		panic(err)
 	}
 	if document.Status != Approved {
@@ -62,7 +63,8 @@ func TestSignDocumentFunctionErrorsCheck(t *testing.T) {
 	// checking document state in blockchain
 	documentBytes, _ := stub.GetState("doc" + documentId)
 	var document Document
-	if err := json.Unmarshal(documentBytes, &document); err != nil {
+	var err error
+	if document, err = DocumentFromJson(documentBytes); err != nil {
 		panic(err)
 	}
 	if sign, _ := document.getCurrentSign(); sign != "2" {
@@ -85,12 +87,12 @@ func TestSignDocumentFunctionErrorsCheck(t *testing.T) {
 
 func AddDocumentInBlockchain(stub *shimtest.MockStub, signs []string) string {
 	title := "title"
-	_type := "type"
+	_type := "General"
 	owner := "owner"
 	group := "group"
-	content := "Some Content"
+	content := "Some attrsJson"
 	marshalledSigns, _ := json.Marshal(signs)
-	ccArgs := SetupArgs("new-doc", title, _type, owner, group, content, string(marshalledSigns))
+	ccArgs := SetupArgs("new-doc", title, _type, owner, group, "{\"content\": \""+content+"\"}", string(marshalledSigns))
 
 	response := stub.MockInvoke("TxUUID", ccArgs)
 

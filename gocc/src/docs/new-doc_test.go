@@ -9,13 +9,24 @@ import (
 func TestCreateNewDocumentFunction(t *testing.T) {
 	stub := InitChaincode(t)
 	title := "title"
-	_type := "type"
+	_type := "GraduationThesisTopics"
 	owner := "owner"
 	group := "group"
-	content := "Some Content"
+	attrs := GraduationThesisTopicsAttributes{
+		Group:     "Group",
+		StudyType: FullTime,
+		Students: []GraduationThesisTopicsStudent{
+			{
+				CommonInfo: Student{FullName: &group},
+			},
+			{
+				CommonInfo: Student{},
+			},
+		}}
 	signs := [3]string{"1", "2", "3"}
 	marshalledSigns, _ := json.Marshal(signs)
-	ccArgs := SetupArgs("new-doc", title, _type, owner, group, content, string(marshalledSigns))
+	marshalledAttrs, _ := json.Marshal(attrs)
+	ccArgs := SetupArgs("new-doc", title, _type, owner, group, string(marshalledAttrs), string(marshalledSigns))
 
 	response := stub.MockInvoke("TxUUID", ccArgs)
 	DumpResponse(ccArgs, response, true)
@@ -26,9 +37,15 @@ func TestCreateNewDocumentFunction(t *testing.T) {
 	t.Logf("Id returned = %s", documentId)
 
 	documentBytes, _ := stub.GetState("doc" + documentId)
-	var documentAdded Document
-	if err := json.Unmarshal(documentBytes, &documentAdded); err != nil {
+	documentAdded, err := DocumentFromJson(documentBytes)
+	if err != nil {
 		panic(err)
+	}
+	// correct attrs
+	attrsAdded := documentAdded.Attributes.(*GraduationThesisTopicsAttributes)
+	if attrsAdded.Group == group {
+		t.Fail()
+		t.Logf("Expected attr group %s, but got %s", group, attrsAdded.Group)
 	}
 	// correct ID
 	if documentAdded.Id != documentId {

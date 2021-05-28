@@ -7,12 +7,12 @@ import (
 
 type CreateNewDocumentFunction struct {
 	ChaincodeFunction
-	Title   string
-	Type    string
-	Owner   string
-	Group   string
-	Content string
-	Signs   []string
+	Title     string
+	Type      string
+	Owner     string
+	Group     string
+	attrsJson string
+	Signs     []string
 }
 
 type CreateNewDocumentResponse struct {
@@ -24,12 +24,15 @@ func (f *CreateNewDocumentFunction) BindParams(args []string) {
 	f.Type = args[1]
 	f.Owner = args[2]
 	f.Group = args[3]
-	f.Content = args[4]
+	f.attrsJson = args[4]
 	_ = json.Unmarshal([]byte(args[5]), &f.Signs)
 }
 
 func (f *CreateNewDocumentFunction) Execute() peer.Response {
-	document := NewDocument(f.Title, f.Type, f.Owner, f.Group, f.Content, f.Signs)
+	document, e := NewDocument(f.Title, f.Type, f.Owner, f.Group, f.attrsJson, f.Signs)
+	if e != nil {
+		return errorResponse(e.Error(), 3)
+	}
 	marshalledDocument, _ := json.Marshal(document)
 	_ = f.stub.PutState("doc"+document.Id, marshalledDocument)
 	response := CreateNewDocumentResponse{

@@ -7,11 +7,12 @@ import (
 )
 
 func TestIsSigned(t *testing.T) {
+	attrs, _ := AttributesFromJson("", "{\"content\": \"Some content\"}")
 	dummyDoc := Document{
-		Id:      "1",
-		Date:    time.Now(),
-		Content: "Some content",
-		Status:  Processing,
+		Id:         "1",
+		Date:       time.Now(),
+		Attributes: attrs,
+		Status:     Processing,
 	}
 	if !dummyDoc.IsSigned() {
 		fmt.Println("Docs with no signs should be considered approved")
