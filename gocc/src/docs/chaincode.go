@@ -14,41 +14,37 @@ type DocsChaincode struct {
 func (token *DocsChaincode) Init(stub shim.ChaincodeStubInterface) peer.Response {
 	fmt.Println("Init executed")
 	// add sample docs
-	var docsMarshalled []string
-	content := "В соответствии с учебным планом и СК ОПД 01-139-2019 «Положение о выпускной квалификационной работе по образовательным программам высшего образования – программам бакалавриата, программам специалитета, программам магистратуры» утвердить темы и руководителей выпускных квалификационных работ студентам факультета информационных технологий групп ПИ-71,-72 очной формы обучения по направлению бакалавриата 09.03.04 Программная инженерия (профиль Разработка программно-информационных систем) согласно списку:" +
-		"\\n\\n" +
-		"Группа ПИ-71\\n\\n" +
-		"Агафонов Анатолий Алексеевич, Тема: Применение технологии верификации акторных взаимодействующих систем (на примере Erlang-программ), науч.рук.:Старолетов С.М., к.ф.-м.н., доцент, доцент кафедры ПМ\\n\\n" +
-		"Куторкин Артем Сергеевич; Борзенко Максим Александрович, Тема: Проектирование и реализация системы распознавания сложных изображений на основе метода семантической коррекции, науч. рук.: Корней А.И. программист ООО «Энтерра-Софт»;Крючкова Е.Н., к.ф.-м.н., доцент, профессор каф. ПМ\\n\\n"
-	document1, e := NewDocument(
+	document, e := NewDocument(
 		"TypeGraduationThesisTopics",
 		TypeGraduationThesisTopics,
 		"Л.И. Сучкова",
 		"Administration",
-		"{\"group\":"+"\""+"group"+"\"}",
+		"{}",
 		[]string{"С.М. Старолетов", "С.А. Кантор"})
 	if e != nil {
 		return errorResponse(e.Error(), 3)
 	}
-	marshalledDocument, _ := json.Marshal(document1)
-	_ = stub.PutState("doc"+document1.Id, marshalledDocument)
-	for i := 0; i < 1; i++ {
-		document, e := NewDocument(
-			"Приказ о темах выпускных квалификационных работ студентов",
-			General,
-			"Л.И. Сучкова",
-			"Administration",
-			"{\"content\":"+"\""+content+"\"}",
-			[]string{"С.М. Старолетов", "С.А. Кантор"})
-		if e != nil {
-			return errorResponse(e.Error(), 3)
-		}
-		marshalledDocument, _ := json.Marshal(document)
-		_ = stub.PutState("doc"+document.Id, marshalledDocument)
-		docsMarshalled = append(docsMarshalled, string(marshalledDocument))
-	}
-	j, _ := json.Marshal(docsMarshalled)
-	return successResponse("Initializing successful. Docs added: " + string(j))
+	t := true
+	f := false
+	document.Attributes = &GraduationThesisTopicsAttributes{
+		Group:      "Group",
+		StudyType:  FullTime,
+		Speciality: "Speciality",
+		Students: []GraduationThesisTopicsStudent{
+			{
+				CommonInfo:              Student{FullName: "Student name1", Nationality: "Nationality1", Group: "Group1", OnGovernmentPay: &t},
+				Topic:                   "Topic1",
+				AcademicAdvisorFullName: "AcademicAdvisorFullName1",
+			},
+			{
+				CommonInfo:              Student{FullName: "Student name2", Nationality: "Nationality2", Group: "Group2", OnGovernmentPay: &f},
+				Topic:                   "Topic2",
+				AcademicAdvisorFullName: "AcademicAdvisorFullName2",
+			},
+		}}
+	marshalledDocument, _ := json.Marshal(document)
+	_ = stub.PutState("doc"+document.Id, marshalledDocument)
+	return successResponse("Initializing successful.")
 }
 
 func (token *DocsChaincode) Invoke(stub shim.ChaincodeStubInterface) peer.Response {

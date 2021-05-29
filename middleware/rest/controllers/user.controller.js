@@ -62,12 +62,11 @@ module.exports = {
             let docsResponse = JSON.parse(responseHLF)
             if (body.withContent === true) {
                 const templates = request.app.get('TEMPLATES')
-                // todo
-                for (let i = 0; i < docsResponse.payload.documents.length; i++)
-                    if (docsResponse.payload.documents[i].type === 'General') {
-                        docsResponse.payload.documents[i].attributes.content =
-                            templates['General'](docsResponse.payload.documents[i].attributes)
-                    }
+                for (let i = 0; i < docsResponse.payload.documents.length; i++) {
+                    const parse = templates[docsResponse.payload.documents[i].type]
+                    docsResponse.payload.documents[i].attributes.content = parse
+                        ? parse(docsResponse.payload.documents[i].attributes) : null
+                }
             }
             response.logAndSendOk(docsResponse)
         } catch (e) {

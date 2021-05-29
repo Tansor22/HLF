@@ -1,1 +1,170 @@
-[]
+[
+  {
+    "_id": "title_hint",
+    "text": "Название документа",
+    "type": 1
+  },
+  {
+    "_id": "title",
+    "is_required": true,
+    "hint": "Название документа",
+    "type": 2
+  },
+  {
+    "_id": "speciality_hint",
+    "text": "Специальность",
+    "type": 1
+  },
+  {
+    "_id": "speciality",
+    "is_required": true,
+    "hint": "Специальность",
+    "type": 2
+  },
+  {
+    "_id": "practice_type",
+    "text": "Тип практики",
+    "selected_value": 0,
+    "is_required": true,
+    "list": [
+      {
+        "index": 0,
+        "index_text": "Учебная"
+      },
+      {
+        "index": 1,
+        "index_text": "Преддипломная"
+      },
+      {
+        "index": 2,
+        "index_text": "Производственная"
+      }
+    ],
+    "type": 3
+  },
+  {
+    "_id": "course_hint",
+    "text": "Курс",
+    "type": 1
+  },
+  {
+    "_id": "course",
+    "is_required": true,
+    "hint": "Курс",
+    "input_type": "numbers",
+    "max_length": 1,
+    "type": 2
+  },
+  {
+    "_id": "date_from_hint",
+    "text": "Начало практики",
+    "type": 1
+  },
+  {
+    "_id": "dateFrom",
+    "is_required": true,
+    "hint": "Начало практики",
+    "type": 5
+  },
+  {
+    "_id": "date_to_hint",
+    "text": "Окончание практики",
+    "type": 1
+  },
+  {
+    "_id": "dateTo",
+    "is_required": true,
+    "hint": "Окончание практики",
+    "type": 5
+  },
+  {
+    "_id": "student",
+    "form": [
+      {
+        "_id": "fullName_hint",
+        "text": "ФИО студента",
+        "type": 1
+      },
+      {
+        "_id": "fullName",
+        "hint": "ФИО студента",
+        "max_length": 3,
+        "type": 12
+      },
+      {
+        "_id": "onGovernmentPay",
+        "text": "Основание обучения",
+        "selected_value": 0,
+        "is_required": true,
+        "list": [
+          {
+            "index": 0,
+            "index_text": "Бюджет"
+          },
+          {
+            "index": 1,
+            "index_text": "Внебюджет"
+          }
+        ],
+        "type": 4
+      },
+      {
+        "_id": "group_hint",
+        "text": "Группа",
+        "type": 1
+      },
+      {
+        "_id": "group",
+        "hint": "Группа",
+        "type": 2
+      },
+      {
+        "_id": "practiceLocation_hint",
+        "text": "Место практики и способ её проведения",
+        "type": 1
+      },
+      {
+        "_id": "practiceLocation",
+        "hint": "Место практики и способ её проведения",
+        "type": 2
+      },
+      {
+        "_id": "headFullName_hint",
+        "text": "Руководитель практики",
+        "type": 1
+      },
+      {
+        "_id": "headFullName",
+        "hint": "Руководитель практики",
+        "type": 2
+      },
+      {
+        "_id": "space",
+        "type": 6
+      },
+      {
+        "_id": "add_student",
+        "text": "Добавить студента",
+        "type": 9
+      }
+    ],
+    "type": 15
+  },
+  {
+    "_id": "signs",
+    "hint": "Выберите подписи",
+    "text": "Подписи",
+    "list": [
+    ],
+    "type": 11
+  },
+  {
+    "_id": "space",
+    "type": 6
+  },
+  {
+    "_id": "submit",
+    "text": "Ок",
+    "type": 10
+  }
+]

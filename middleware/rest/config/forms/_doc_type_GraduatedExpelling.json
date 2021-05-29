@@ -1,1 +1,147 @@
-[]
+[
+  {
+    "_id": "title_hint",
+    "text": "Название документа",
+    "type": 1
+  },
+  {
+    "_id": "title",
+    "is_required": true,
+    "hint": "Название документа",
+    "type": 2
+  },
+  {
+    "_id": "speciality_hint",
+    "text": "Специальность",
+    "type": 1
+  },
+  {
+    "_id": "speciality",
+    "is_required": true,
+    "hint": "Специальность",
+    "type": 2
+  },
+  {
+    "_id": "course_hint",
+    "text": "Курс",
+    "type": 1
+  },
+  {
+    "_id": "course",
+    "is_required": true,
+    "hint": "Курс",
+    "input_type": "numbers",
+    "max_length": 1,
+    "type": 2
+  },
+  {
+    "_id": "faculty_hint",
+    "text": "Факультет",
+    "type": 1
+  },
+  {
+    "_id": "faculty",
+    "is_required": true,
+    "hint": "Факультет",
+    "type": 2
+  },
+  {
+    "_id": "qualification_hint",
+    "text": "Присвоенная квалификация",
+    "type": 1
+  },
+  {
+    "_id": "qualification",
+    "is_required": true,
+    "hint": "Присвоенная квалификация",
+    "type": 2
+  },
+  {
+    "_id": "student",
+    "form": [
+      {
+        "_id": "fullName_hint",
+        "text": "ФИО студента",
+        "type": 1
+      },
+      {
+        "_id": "fullName",
+        "hint": "ФИО студента",
+        "max_length": 3,
+        "type": 12
+      },
+      {
+        "_id": "nationality_hint",
+        "text": "Гражданство",
+        "type": 1
+      },
+      {
+        "_id": "nationality",
+        "hint": "Гражданство",
+        "max_length": 3,
+        "type": 2
+      },
+      {
+        "_id": "onGovernmentPay",
+        "text": "Основание обучения",
+        "selected_value": 0,
+        "is_required": true,
+        "list": [
+          {
+            "index": 0,
+            "index_text": "Бюджет"
+          },
+          {
+            "index": 1,
+            "index_text": "Внебюджет"
+          }
+        ],
+        "type": 4
+      },
+      {
+        "_id": "honoursDegree",
+        "hint": "Диплом с отличием",
+        "text": "Диплом с отличием",
+        "type": 7
+      },
+      {
+        "_id": "examDate_hint",
+        "text": "Дата протокола заседания ГЭК",
+        "type": 1
+      },
+      {
+        "_id": "examDate",
+        "is_required": true,
+        "hint": "Дата протокола заседания ГЭК",
+        "type": 5
+      },
+      {
+        "_id": "space",
+        "type": 6
+      },
+      {
+        "_id": "add_student",
+        "text": "Добавить студента",
+        "type": 9
+      }
+    ],
+    "type": 15
+  },
+  {
+    "_id": "signs",
+    "hint": "Выберите подписи",
+    "text": "Подписи",
+    "list": [
+    ],
+    "type": 11
+  },
+  {
+    "_id": "space",
+    "type": 6
+  },
+  {
+    "_id": "submit",
+    "text": "Ок",
+    "type": 10
+  }
+]

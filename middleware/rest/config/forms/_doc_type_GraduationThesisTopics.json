@@ -53,12 +53,12 @@
     "_id": "student",
     "form": [
       {
-        "_id": "fio_hint",
+        "_id": "fullName_hint",
         "text": "ФИО студента",
         "type": 1
       },
       {
-        "_id": "fio",
+        "_id": "fullName",
         "hint": "ФИО студента",
         "max_length": 3,
         "type": 12
@@ -75,12 +75,12 @@
         "type": 12
       },
       {
-        "_id": "head_fio_hint",
+        "_id": "headFullName_hint",
         "text": "Фио науч. рук-а",
         "type": 1
       },
       {
-        "_id": "head_fio",
+        "_id": "headFullName",
         "hint": "Фио науч. рук-а",
         "max_length": 3,
         "type": 12

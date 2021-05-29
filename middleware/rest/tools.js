@@ -33,7 +33,7 @@ module.exports = {
                 const postfixIndex = file.indexOf('.txt')
                 if (file.startsWith('_doc_type_') && postfixIndex !== -1) {
                     const fileContent = fs.readFileSync(path.resolve(templatesDir, file), 'utf-8').toString()
-                    templates[file.substring('_doc_type_'.length, postfixIndex)] = ejs.compile(fileContent)
+                    templates[file.substring('_doc_type_'.length, postfixIndex)] = ejs.compile(fileContent, {rmWhitespace: true})
                 }
             });
             console.log("Templates parsed: " + Object.keys(templates))

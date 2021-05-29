@@ -43,12 +43,10 @@ type Change struct {
 // todo superclass, should be extended
 type Student struct {
 	// all string should be substitute to pointers?
-	FullName        *string `json:"fullName"`
-	Nationality     string  `json:"nationality"`
-	Group           string  `json:"group"`
-	OnGovernmentPay *bool   `json:"onGovernmentPay"` // основа обучения бюджет=true\внебюджет=false
-	// todo move to GraduatedExpellingStudent
-	HasHonoursDegree *bool `json:"hasHonoursDegree"`
+	FullName        string `json:"fullName"`
+	Nationality     string `json:"nationality"`
+	Group           string `json:"group"`
+	OnGovernmentPay *bool  `json:"onGovernmentPay"` // основа обучения бюджет=true\внебюджет=false
 }
 
 func (s *Student) GetCommonInfo() *Student {
@@ -56,14 +54,16 @@ func (s *Student) GetCommonInfo() *Student {
 }
 
 type IStudent interface {
-	// Текст документа
 	GetCommonInfo() *Student
 }
-
+type GraduatedExpellingStudent struct {
+	CommonInfo       Student `json:"commonInfo"`
+	HasHonoursDegree *bool   `json:"hasHonoursDegree"`
+}
 type GraduationThesisTopicsStudent struct {
 	CommonInfo              Student `json:"commonInfo"`
 	Topic                   string  `json:"topic"`
-	AcademicAdvisorFullName Student `json:"academicAdvisorFullName"`
+	AcademicAdvisorFullName string  `json:"academicAdvisorFullName"`
 }
 
 type IDocAttributes interface {
