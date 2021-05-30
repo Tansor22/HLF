@@ -17,7 +17,7 @@ func TestCreateNewDocumentFunction(t *testing.T) {
 		StudyType: FullTime,
 		Students: []GraduationThesisTopicsStudent{
 			{
-				CommonInfo: Student{FullName: &group},
+				CommonInfo: Student{FullName: group},
 			},
 			{
 				CommonInfo: Student{},

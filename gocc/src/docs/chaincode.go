@@ -11,9 +11,7 @@ import (
 type DocsChaincode struct {
 }
 
-func (token *DocsChaincode) Init(stub shim.ChaincodeStubInterface) peer.Response {
-	fmt.Println("Init executed")
-	// add sample docs
+func addGraduationThesisTopicsDocInBlockchain(stub shim.ChaincodeStubInterface) error {
 	document, e := NewDocument(
 		"TypeGraduationThesisTopics",
 		TypeGraduationThesisTopics,
@@ -22,8 +20,9 @@ func (token *DocsChaincode) Init(stub shim.ChaincodeStubInterface) peer.Response
 		"{}",
 		[]string{"С.М. Старолетов", "С.А. Кантор"})
 	if e != nil {
-		return errorResponse(e.Error(), 3)
+		return e
 	}
+
 	t := true
 	f := false
 	document.Attributes = &GraduationThesisTopicsAttributes{
@@ -44,6 +43,116 @@ func (token *DocsChaincode) Init(stub shim.ChaincodeStubInterface) peer.Response
 		}}
 	marshalledDocument, _ := json.Marshal(document)
 	_ = stub.PutState("doc"+document.Id, marshalledDocument)
+	return nil
+}
+func addGraduatedExpellingDocInBlockchain(stub shim.ChaincodeStubInterface) error {
+	document, e := NewDocument(
+		"TypeGraduatedExpelling",
+		TypeGraduatedExpelling,
+		"Л.И. Сучкова",
+		"Administration",
+		"{}",
+		[]string{"С.М. Старолетов", "С.А. Кантор"})
+	if e != nil {
+		return e
+	}
+
+	t := true
+	f := false
+	course := 1
+	document.Attributes = &GraduatedExpellingAttributes{
+		Qualification: "Qualification",
+		Course:        &course,
+		Faculty:       "Faculty",
+		Speciality:    "Speciality",
+		Students: []GraduatedExpellingStudent{
+			{
+				CommonInfo:       Student{FullName: "Student name1", Nationality: "Nationality1", Group: "Group1", OnGovernmentPay: &t},
+				HasHonoursDegree: &t,
+				ExamDate:         "20.06.21",
+			},
+			{
+				CommonInfo:       Student{FullName: "Student name2", Nationality: "Nationality2", Group: "Group2", OnGovernmentPay: &f},
+				HasHonoursDegree: &f,
+				ExamDate:         "23.06.21",
+			},
+		}}
+	marshalledDocument, _ := json.Marshal(document)
+	_ = stub.PutState("doc"+document.Id, marshalledDocument)
+	return nil
+}
+func addPracticePermissionDocInBlockchain(stub shim.ChaincodeStubInterface) error {
+	document, e := NewDocument(
+		"TypePracticePermission",
+		TypePracticePermission,
+		"Л.И. Сучкова",
+		"Administration",
+		"{}",
+		[]string{"С.М. Старолетов", "С.А. Кантор"})
+	if e != nil {
+		return e
+	}
+
+	t := true
+	f := false
+	course := 1
+	document.Attributes = &PracticePermissionAttributes{
+		PracticeType: "Учебная",
+		Course:       &course,
+		Speciality:   "Speciality",
+		StudyType:    "FULL_TIME",
+		DateFrom:     "20.05.21",
+		DateTo:       "20.06.21",
+		Students: []PracticePermissionStudent{
+			{
+				CommonInfo:       Student{FullName: "Student name1", Nationality: "Nationality1", Group: "Group1", OnGovernmentPay: &t},
+				PracticeLocation: "PracticeLocation",
+				HeadFullName:     "HeadFullName",
+			},
+			{
+				CommonInfo:       Student{FullName: "Student name2", Nationality: "Nationality2", Group: "Group2", OnGovernmentPay: &f},
+				PracticeLocation: "PracticeLocation",
+				HeadFullName:     "HeadFullName",
+			},
+		}}
+	marshalledDocument, _ := json.Marshal(document)
+	_ = stub.PutState("doc"+document.Id, marshalledDocument)
+	return nil
+}
+func addGeneralDocInBlockchain(stub shim.ChaincodeStubInterface) error {
+	document, e := NewDocument(
+		"TypeGeneral",
+		TypeGeneral,
+		"Л.И. Сучкова",
+		"Administration",
+		"{}",
+		[]string{"С.М. Старолетов", "С.А. Кантор"})
+	if e != nil {
+		return e
+	}
+
+	document.Attributes = &DocAttributes{
+		Content: "Some custom content",
+	}
+	marshalledDocument, _ := json.Marshal(document)
+	_ = stub.PutState("doc"+document.Id, marshalledDocument)
+	return nil
+}
+func (token *DocsChaincode) Init(stub shim.ChaincodeStubInterface) peer.Response {
+	fmt.Println("Init executed")
+	// add sample docs
+	if e := addGraduationThesisTopicsDocInBlockchain(stub); e != nil {
+		return errorResponse(e.Error(), 3)
+	}
+	if e := addGraduatedExpellingDocInBlockchain(stub); e != nil {
+		return errorResponse(e.Error(), 3)
+	}
+	if e := addPracticePermissionDocInBlockchain(stub); e != nil {
+		return errorResponse(e.Error(), 3)
+	}
+	if e := addGeneralDocInBlockchain(stub); e != nil {
+		return errorResponse(e.Error(), 3)
+	}
 	return successResponse("Initializing successful.")
 }
 

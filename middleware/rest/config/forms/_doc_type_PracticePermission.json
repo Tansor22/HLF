@@ -22,7 +22,7 @@
     "type": 2
   },
   {
-    "_id": "practice_type",
+    "_id": "practiceType",
     "text": "Тип практики",
     "selected_value": 0,
     "is_required": true,
@@ -54,6 +54,23 @@
     "input_type": "numbers",
     "max_length": 1,
     "type": 2
+  },
+  {
+    "_id": "study_type",
+    "text": "Тип обучения",
+    "selected_value": 0,
+    "is_required": true,
+    "list": [
+      {
+        "index": 0,
+        "index_text": "Очный"
+      },
+      {
+        "index": 1,
+        "index_text": "Заочный"
+      }
+    ],
+    "type": 4
   },
   {
     "_id": "date_from_hint",

@@ -53,25 +53,27 @@ module.exports = {
         }
     },
     getDocuments: async function (request, response) {
+        let responseHLF, body
         try {
             let gateway = await Promise.resolve(request.gateway)
             let network = await gateway.getNetwork(request.app.get('NETWORK_NAME'))
             let contract = await network.getContract(request.app.get('CONTRACT_ID'));
-            let {body} = request
-            let responseHLF = await contract.evaluateTransaction('get-docs', body.group)
-            let docsResponse = JSON.parse(responseHLF)
-            if (body.withContent === true) {
-                const templates = request.app.get('TEMPLATES')
-                for (let i = 0; i < docsResponse.payload.documents.length; i++) {
-                    const parse = templates[docsResponse.payload.documents[i].type]
-                    docsResponse.payload.documents[i].attributes.content = parse
-                        ? parse(docsResponse.payload.documents[i].attributes) : null
-                }
-            }
-            response.logAndSendOk(docsResponse)
+            body = request.body
+            responseHLF = await contract.evaluateTransaction('get-docs', body.group)
         } catch (e) {
             return response.logAndSendError("HLFError", parseHLFError(e.message))
         }
+        let docsResponse = JSON.parse(responseHLF)
+        if (body.withContent === true) {
+            const templates = request.app.get('TEMPLATES')
+            for (let i = 0; i < docsResponse.payload.documents.length; i++) {
+                const parse = templates[docsResponse.payload.documents[i].type]
+                docsResponse.payload.documents[i].attributes.content = parse
+                    ? parse(docsResponse.payload.documents[i].attributes) : null
+            }
+        }
+        response.logAndSendOk(docsResponse)
+
 
     },
     changeDocument: async function (request, response) {

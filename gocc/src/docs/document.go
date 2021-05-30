@@ -19,14 +19,10 @@ const (
 	Edit    = "EDIT"
 	Approve = "APPROVE"
 	// doc.type
-	GraduatedExpelling         = "GraduatedExpelling"
-	PracticePermission         = "PracticePermission"
+	TypeGraduatedExpelling     = "GraduatedExpelling"
+	TypePracticePermission     = "PracticePermission"
 	TypeGraduationThesisTopics = "GraduationThesisTopics"
-	General                    = "General"
-	// study types
-	FullTime  = "FULL_TIME"  // очный
-	PartTime  = "PART_TIME"  // очно-заочный
-	SelfStudy = "SELF_STUDY" // заочный
+	TypeGeneral                = "General"
 )
 
 type Change struct {
@@ -38,57 +34,6 @@ type Change struct {
 	Date time.Time `json:"date"`
 	// Отсутствует студент Иванов И.И.
 	Details string `json:"details"`
-}
-
-// todo superclass, should be extended
-type Student struct {
-	// all string should be substitute to pointers?
-	FullName        string `json:"fullName"`
-	Nationality     string `json:"nationality"`
-	Group           string `json:"group"`
-	OnGovernmentPay *bool  `json:"onGovernmentPay"` // основа обучения бюджет=true\внебюджет=false
-}
-
-func (s *Student) GetCommonInfo() *Student {
-	return s
-}
-
-type IStudent interface {
-	GetCommonInfo() *Student
-}
-type GraduatedExpellingStudent struct {
-	CommonInfo       Student `json:"commonInfo"`
-	HasHonoursDegree *bool   `json:"hasHonoursDegree"`
-}
-type GraduationThesisTopicsStudent struct {
-	CommonInfo              Student `json:"commonInfo"`
-	Topic                   string  `json:"topic"`
-	AcademicAdvisorFullName string  `json:"academicAdvisorFullName"`
-}
-
-type IDocAttributes interface {
-	// Текст документа
-	GenerateContent()
-}
-
-type DocAttributes struct {
-	// Текст документа
-	Content string `json:"content"`
-}
-
-func (attrs *DocAttributes) GenerateContent() {
-}
-
-type GraduationThesisTopicsAttributes struct {
-	Content    string                          `json:"content"`
-	Group      string                          `json:"group"`
-	Speciality string                          `json:"speciality"`
-	StudyType  string                          `json:"studyType"`
-	Students   []GraduationThesisTopicsStudent `json:"students"`
-}
-
-func (attrs *GraduationThesisTopicsAttributes) GenerateContent() {
-	attrs.Content = "generated via pattern"
 }
 
 type Document struct {
@@ -148,20 +93,6 @@ func NewChange(member string, _type string, details string) Change {
 		Type:    _type,
 		Date:    time.Now(),
 		Details: details,
-	}
-}
-
-func AttributesFromJson(_type string, attrsJson string) (IDocAttributes, error) {
-	switch _type {
-	case TypeGraduationThesisTopics:
-		var attrs GraduationThesisTopicsAttributes
-		e := json.Unmarshal([]byte(attrsJson), &attrs)
-		attrs.GenerateContent()
-		return &attrs, e
-	default:
-		var attrs DocAttributes
-		e := json.Unmarshal([]byte(attrsJson), &attrs)
-		return &attrs, e
 	}
 }
 
