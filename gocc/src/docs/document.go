@@ -33,7 +33,8 @@ type Change struct {
 	// 21.05.2021
 	Date time.Time `json:"date"`
 	// Отсутствует студент Иванов И.И.
-	Details string `json:"details"`
+	Details    string         `json:"details"`
+	Attributes IDocAttributes `json:"attributes"`
 }
 
 type Document struct {
@@ -87,12 +88,13 @@ type Document struct {
 	SignedBy []string `json:"signedBy"`
 }
 
-func NewChange(member string, _type string, details string) Change {
+func NewChange(member string, _type string, details string, attrs IDocAttributes) Change {
 	return Change{
-		Member:  member,
-		Type:    _type,
-		Date:    time.Now(),
-		Details: details,
+		Member:     member,
+		Type:       _type,
+		Date:       time.Now(),
+		Details:    details,
+		Attributes: attrs,
 	}
 }
 
@@ -100,6 +102,7 @@ func DocumentFromJson(docJson []byte) (Document, error) {
 	var output Document
 	_ = json.Unmarshal(docJson, &output)
 	tree := ParseJson(docJson)
+	// todo changes not parsed
 	attrsJson := tree.Get("attributes").String()
 	attrs, e := AttributesFromJson(output.Type, attrsJson)
 	if e != nil {
@@ -172,8 +175,16 @@ func (d *Document) RegisterChange(change Change) error {
 			d.Changes = append(d.Changes, change)
 		}
 	case Edit:
-		// todo support Edit change.details == new attributes
-		return errors.New("Not supported change type yet:" + change.Type)
+		if change.Attributes != nil {
+			// swap attributes
+			//var attrsTemp IDocAttributes
+			//attrsTemp = d.Attributes
+			d.Attributes, change.Attributes = change.Attributes, d.Attributes
+			//change.Attributes = &attrsTemp
+			// add change with previous doc attrs state
+			d.Changes = append(d.Changes, change)
+		}
+		d.Status = Processing
 	}
 	return nil
 }

@@ -83,7 +83,7 @@ module.exports = {
             let contract = await network.getContract(request.app.get('CONTRACT_ID'));
             let {body} = request
             let responseHLF = await contract.submitTransaction('change-doc',
-                body.documentId, body.member, body.type, body.details || "")
+                body.documentId, body.member, body.type, body.details || "", body.attributes ? JSON.stringify(body.attributes) : "")
             response.logAndSendOk(JSON.parse(responseHLF))
         } catch (e) {
             return response.logAndSendError("HLFError", e.message)
