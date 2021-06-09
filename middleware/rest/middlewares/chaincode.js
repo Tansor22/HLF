@@ -12,7 +12,7 @@ module.exports = {
             let walletPath = request.app.get('FILESYSTEM_WALLET_PATH')
             /* todo connection depends on user, already here*/
             console.log("User Identity : " + user.username + user.email)
-            request.gateway = setupGateway(walletPath, profilePath, /*request.userId*/'Admin@acme.com')
+            request.gateway = setupGateway(walletPath, profilePath, /*request.userId*/'Admin@astu.com')
             next()
         })
     }

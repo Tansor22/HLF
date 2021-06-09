@@ -1,7 +1,7 @@
 #!/bin/bash
 
 usage() {
-    echo ". set-env.sh   ORG_NAME   [PEER_NAME default=acme-peer1]  [IDENTITY default=admin] [PORT_NUMBER_BASE default=7050] [ORDERER_ADDRESS default=orderer.acme.com:7050] "
+    echo ". set-env.sh   ORG_NAME   [PEER_NAME default=astu-peer1]  [IDENTITY default=admin] [PORT_NUMBER_BASE default=7050] [ORDERER_ADDRESS default=orderer.astu.com:7050] "
     echo "               Sets the environment variables for the peer that need to be administered"
     echo "               If [Identity] is specified then the MSP is set to the specified Identity instead of admin"
 }
@@ -23,8 +23,8 @@ fi
 # Sets the Peer Name for Address
 if [ -z $2 ];
 then
-    echo "Switching PEER_NAME for Org = acme-peer1"
-    PEER_NAME=acme-peer1
+    echo "Switching PEER_NAME for Org = astu-peer1"
+    PEER_NAME=astu-peer1
 else
     PEER_NAME=$2
 fi
@@ -52,8 +52,8 @@ fi
 # ORDERER_ADDRESS
 if [ -z $5 ]
 then
-    echo "Setting ORDERER_ADDRESS=orderer.acme.com:7050"   
-    export ORDERER_ADDRESS=orderer.acme.com:7050
+    echo "Setting ORDERER_ADDRESS=orderer.astu.com:7050"
+    export ORDERER_ADDRESS=orderer.astu.com:7050
 else
     ORDERER_ADDRESS=$5
 fi
@@ -66,7 +66,7 @@ export CORE_PEER_ID=$PEER_NAME
 CRYPTO_CONFIG_ROOT_FOLDER=/var/hyperledger/crypto
 export CORE_PEER_MSPCONFIGPATH=$CRYPTO_CONFIG_ROOT_FOLDER/$ORG_NAME.com/users/Admin@$ORG_NAME.com/msp
 
-# Capitalize the first letter of Org name e.g., acme => Acme  budget => Budget
+# Capitalize the first letter of Org name e.g., astu => Astu  astu-service => Astu-Service
 MSP_ID="$(tr '[:lower:]' '[:upper:]' <<< ${ORG_NAME:0:1})${ORG_NAME:1}"
 export CORE_PEER_LOCALMSPID=$MSP_ID"MSP"
 

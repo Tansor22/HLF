@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo    "Installing the chaincode ERC20"
-.    set-env.sh    acme
+.    set-env.sh    astu
 set-chain-env.sh       -n erc20  -v 1.0   -p  ERC20
 chain.sh install -p
 

@@ -68,13 +68,16 @@ chmod u+x $BIN_PATH/*.sh
 cd $SETUP_FOLDER
 
 source    ./manage_hosts.sh
-HOSTNAME=acme-peer1.acme.com
+#HOSTNAME=astu-peer1.astu.com
+HOSTNAME=astu-admin-peer1.astu.com
 removehost $HOSTNAME            &> /dev/null
 addhost $HOSTNAME
-HOSTNAME=budget-peer1.budget.com
+#HOSTNAME=astu-service-peer1.astu-service.com
+HOSTNAME=astu-service-peer1.astu.com
 removehost $HOSTNAME            &> /dev/null
 addhost $HOSTNAME
-HOSTNAME=orderer.acme.com
+#HOSTNAME=orderer.astu.com
+HOSTNAME=orderer.astu.com
 removehost $HOSTNAME            &> /dev/null
 addhost $HOSTNAME
 HOSTNAME=postgresql

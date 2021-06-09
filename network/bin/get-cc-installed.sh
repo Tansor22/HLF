@@ -2,8 +2,8 @@
 # Gets the installed chaincodes from the peer
 if [ "$FABRIC_CFG_PATH" == "" ]; then 
    echo "This script requires the Environment to be setup!!! Use one of the following:"
-   echo "> source  set-env.sh  acme"
-   echo "> source  set-env.sh  budget"
+   echo "> source  set-env.sh  astu"
+   echo "> source  set-env.sh  astu-service"
    exit
 fi
 

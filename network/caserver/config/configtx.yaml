@@ -1,5 +1,5 @@
 # configtx
-# Used for setting up the Phase-3 of Airline Nw on the cloud
+# Used for setting up the Phase-3 of Docs Nw on the cloud
 
 #   CAPABILITIES
 Capabilities:
@@ -31,53 +31,53 @@ Organizations:
           Type: Signature
           Rule: "OR('OrdererMSP.member')"
 
-  - &Acme
-    Name: AcmeMSP
-    ID: AcmeMSP
-    MSPDir: ../client/acme/msp
-    Policies: &AcmePolicies
+  - &Astu
+    Name: AstuMSP
+    ID: AstuMSP
+    MSPDir: ../client/astu/msp
+    Policies: &AstuPolicies
       Readers:
           Type: Signature
-        #   Rule: "OR('AcmeMSP.admin', 'AcmeMSP.peer', 'AcmeMSP.client')"
-          Rule: "OR('AcmeMSP.member')"
+        #   Rule: "OR('AstuMSP.admin', 'AstuMSP.peer', 'AstuMSP.client')"
+          Rule: "OR('AstuMSP.member')"
       Writers:
           Type: Signature
-        #   Rule: "OR('AcmeMSP.admin', 'AcmeMSP.client')"
-          Rule: "OR('AcmeMSP.member')"
+        #   Rule: "OR('AstuMSP.admin', 'AstuMSP.client')"
+          Rule: "OR('AstuMSP.member')"
       Admins:
           Type: Signature
-          # UPDATE: Dec 15, 2019 - This is a dev env so its OK in Prod ... use AcmeMSP.admin
-          Rule: "OR('AcmeMSP.member')"
+          # UPDATE: Dec 15, 2019 - This is a dev env so its OK in Prod ... use AstuMSP.admin
+          Rule: "OR('AstuMSP.member')"
       Endorsement:
           Type: Signature
-          Rule: "OR('AcmeMSP.member')"
+          Rule: "OR('AstuMSP.member')"
     AnchorPeers:
-      - Host: acme-peer1.acme.com
+      - Host: astu-admin-peer1.astu.com
         Port: 7051
 
   # Added by the Administrator
-  - &Budget
-    Name: BudgetMSP
-    ID: BudgetMSP
-    MSPDir: ../client/budget/msp
-    Policies: &BudgetPolicies
+  - &Astu-Service
+    Name: Astu-ServiceMSP
+    ID: Astu-ServiceMSP
+    MSPDir: ../client/astu-service/msp
+    Policies: &Astu-ServicePolicies
       Readers:
           Type: Signature
-        #   Rule: "OR('BudgetMSP.admin','BudgetMSP.peer','BudgetMSP.client')"
-          Rule: "OR('BudgetMSP.member')"
+        #   Rule: "OR('Astu-ServiceMSP.admin','Astu-ServiceMSP.peer','Astu-ServiceMSP.client')"
+          Rule: "OR('Astu-ServiceMSP.member')"
       Writers:
           Type: Signature
-        #   Rule: "OR('BudgetMSP.admin','BudgetMSP.client')"
-          Rule: "OR('BudgetMSP.member')"
+        #   Rule: "OR('Astu-ServiceMSP.admin','Astu-ServiceMSP.client')"
+          Rule: "OR('Astu-ServiceMSP.member')"
       Admins:
           Type: Signature
-          # UPDATE: Dec 15, 2019 - This is a dev env so its OK in Prod ... use BudgetMSP.admin
-          Rule: "OR('BudgetMSP.member')"
+          # UPDATE: Dec 15, 2019 - This is a dev env so its OK in Prod ... use Astu-ServiceMSP.admin
+          Rule: "OR('Astu-ServiceMSP.member')"
       Endorsement:
           Type: Signature
-          Rule: "OR('BudgetMSP.member')"
+          Rule: "OR('Astu-ServiceMSP.member')"
     AnchorPeers:
-      - Host: budget-peer1.budget.com
+      - Host: astu-service-peer1.astu.com
         Port: 8051
 
   
@@ -88,7 +88,7 @@ Orderer: &OrdererDefaults
   OrdererType: solo
 
   Addresses:
-    - orderer.acme.com:7050
+    - orderer.astu.com:7050
 
     # Policies for Orderer
   Policies:
@@ -254,7 +254,7 @@ Channel: &ChannelDefaults
 #   PROFILES
 Profiles:
 
-  AirlineOrdererGenesis:
+  DocsOrdererGenesis:
       <<: *ChannelDefaults
       Orderer:
           <<: *OrdererDefaults
@@ -266,29 +266,29 @@ Profiles:
             <<: *ApplicationDefaults
 
             Organizations:
-                - <<: *Acme               
-                - <<: *Budget
+                - <<: *Astu
+                - <<: *Astu-Service
 
 
       Consortiums:
 
-        AirlineConsortium:
+        DocsConsortium:
             
             Organizations:
-                  - <<: *Acme                               
-                  - <<: *Budget
+                  - <<: *Astu
+                  - <<: *Astu-Service
 
                   
-  AirlineChannel:
+  DocsChannel:
     <<: *ChannelDefaults
-    Consortium: AirlineConsortium
+    Consortium: DocsConsortium
         
     Application:
         <<: *ApplicationDefaults
         
         Organizations:
-            - <<: *Acme
-            - <<: *Budget
+            - <<: *Astu
+            - <<: *Astu-Service
 
 
 

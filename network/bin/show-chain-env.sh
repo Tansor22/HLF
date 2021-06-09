@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Dumps the chaincode env variables "OR('BudgetMSP.member')"
+# Dumps the chaincode env variables "OR('Astu-ServiceMSP.member')"
 
 DIR="$( which set-chain-env.sh)"
 DIR="$(dirname $DIR)"

@@ -3,21 +3,21 @@
 version: '2'
 
 networks:
-  airline:
+  docs:
 
 services:
   
 
-  # Acme peer1
-  acme-peer1.acme.com:
-    container_name: acme-peer1.acme.com
+  # Astu peer1
+  astu-admin-peer1.astu.com:
+    container_name: astu-admin-peer1.astu.com
     
     command: peer node start --peer-chaincodedev=true
     
 
-  # Budget peer1
-  budget-peer1.budget.com:
-    container_name: budget-peer1.budget.com
+  # Astu-Service peer1
+  astu-service-peer1.astu.com:
+    container_name: astu-service-peer1.astu.com
     
     command: peer node start --peer-chaincodedev=true
     

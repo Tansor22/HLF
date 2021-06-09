@@ -26,7 +26,7 @@ FABRIC_CFG_PATH=$ABS_PATH
 
 
 # export ORDERER_ADDRESS=localhost:7050
-export ORDERER_ADDRESS=orderer.acme.com:7050
+export ORDERER_ADDRESS=orderer.astu.com:7050
 
 # Sets the ORG Name
 ORG_NAME=$1
@@ -34,16 +34,16 @@ if [ -z $ORG_NAME ];
 then
     usage                            
     echo "Please provide the ORG Name!!!"
-elif [ "$ORG_NAME" = "acme" ];
+elif [ "$ORG_NAME" = "astu" ];
 then
     # echo "Switching the Org = $ORG_NAME"
     # export CORE_PEER_ADDRESS=localhost:7051
-    export CORE_PEER_ADDRESS=acme-peer1.acme.com:7051
-elif [ "$ORG_NAME" = "budget" ];
+    export CORE_PEER_ADDRESS=astu-admin-peer1.astu.com:7051
+elif [ "$ORG_NAME" = "astu-service" ];
 then
     # echo "Switching the Org = $ORG_NAME"
     # export CORE_PEER_ADDRESS=localhost:8051
-    export CORE_PEER_ADDRESS=budget-peer1.budget.com:8051
+    export CORE_PEER_ADDRESS=astu-service-peer1.astu.com:8051
 else
     usage                            
     echo "INVALID ORG Name!!!"
@@ -56,7 +56,7 @@ export CORE_PEER_MSPCONFIGPATH=$CRYPTO_CONFIG_ROOT_FOLDER/$ORG_NAME.com/users/Ad
 to-absolute-path $CORE_PEER_MSPCONFIGPATH
 CORE_PEER_MSPCONFIGPATH=$ABS_PATH
 
-# Capitalize the first letter of Org name e.g., acme => Acme  budget => Budget
+# Capitalize the first letter of Org name e.g., astu => Astu  astu-service => Astu-Service
 MSP_ID="$(tr '[:lower:]' '[:upper:]' <<< ${ORG_NAME:0:1})${ORG_NAME:1}"
 export CORE_PEER_LOCALMSPID=$MSP_ID"MSP"
 

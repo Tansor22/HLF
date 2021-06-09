@@ -3,7 +3,7 @@
 version: '2'
 
 networks:
-  airline:
+  docs:
 
 services:
   
@@ -25,7 +25,7 @@ services:
     ports:
       - 5432:5432
     networks:
-      - airline
+      - docs
   
   explorer:
     container_name: explorer
@@ -44,4 +44,4 @@ services:
     depends_on: 
       - postgresql
     networks:
-      - airline
+      - docs

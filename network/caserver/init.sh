@@ -14,14 +14,14 @@ fabric-ca-client enroll -u http://admin:adminpw@localhost:7054
 ######################
 # Admin registration #
 ######################
-echo "Registering: acme-admin"
+echo "Registering: astu-admin"
 ATTRIBUTES='"hf.Registrar.Roles=peer,user,client","hf.AffiliationMgr=true","hf.Revoker=true","hf.Registrar.Attributes=*"'
-fabric-ca-client register --id.type client --id.name acme-admin --id.secret adminpw --id.affiliation acme --id.attrs $ATTRIBUTES
+fabric-ca-client register --id.type client --id.name astu-admin --id.secret adminpw --id.affiliation astu --id.attrs $ATTRIBUTES
 
-# 3. Register budget-admin
-echo "Registering: budget-admin"
+# 3. Register astu-service-admin
+echo "Registering: astu-service-admin"
 ATTRIBUTES='"hf.Registrar.Roles=peer,user,client","hf.AffiliationMgr=true","hf.Revoker=true","hf.Registrar.Attributes=*"'
-fabric-ca-client register --id.type client --id.name budget-admin --id.secret adminpw --id.affiliation budget --id.attrs $ATTRIBUTES
+fabric-ca-client register --id.type client --id.name astu-service-admin --id.secret adminpw --id.affiliation astu-service --id.attrs $ATTRIBUTES
 
 # 4. Register orderer-admin
 echo "Registering: orderer-admin"
@@ -32,13 +32,13 @@ fabric-ca-client register --id.type client --id.name orderer-admin --id.secret a
 ####################
 # Admin Enrollment #
 ####################
-export FABRIC_CA_CLIENT_HOME=$PWD/client/acme/admin
-fabric-ca-client enroll -u http://acme-admin:adminpw@localhost:7054
+export FABRIC_CA_CLIENT_HOME=$PWD/client/astu/admin
+fabric-ca-client enroll -u http://astu-admin:adminpw@localhost:7054
 mkdir -p $FABRIC_CA_CLIENT_HOME/msp/admincerts
 cp $FABRIC_CA_CLIENT_HOME/../../caserver/admin/msp/signcerts/*  $FABRIC_CA_CLIENT_HOME/msp/admincerts
 
-export FABRIC_CA_CLIENT_HOME=$PWD/client/budget/admin
-fabric-ca-client enroll -u http://budget-admin:adminpw@localhost:7054
+export FABRIC_CA_CLIENT_HOME=$PWD/client/astu-service/admin
+fabric-ca-client enroll -u http://astu-service-admin:adminpw@localhost:7054
 mkdir -p $FABRIC_CA_CLIENT_HOME/msp/admincerts
 cp $FABRIC_CA_CLIENT_HOME/../../caserver/admin/msp/signcerts/*  $FABRIC_CA_CLIENT_HOME/msp/admincerts
 
@@ -58,17 +58,17 @@ mkdir ./client/orderer/msp/keystore
 cp $ROOT_CA_CERTIFICATE ./client/orderer/msp/cacerts
 cp ./client/orderer/admin/msp/signcerts/* ./client/orderer/msp/admincerts   
 
-mkdir -p ./client/acme/msp/admincerts
-mkdir ./client/acme/msp/cacerts
-mkdir ./client/acme/msp/keystore
-cp $ROOT_CA_CERTIFICATE ./client/acme/msp/cacerts
-cp ./client/acme/admin/msp/signcerts/* ./client/acme/msp/admincerts   
+mkdir -p ./client/astu/msp/admincerts
+mkdir ./client/astu/msp/cacerts
+mkdir ./client/astu/msp/keystore
+cp $ROOT_CA_CERTIFICATE ./client/astu/msp/cacerts
+cp ./client/astu/admin/msp/signcerts/* ./client/astu/msp/admincerts
 
-mkdir -p ./client/budget/msp/admincerts
-mkdir ./client/budget/msp/cacerts
-mkdir ./client/budget/msp/keystore
-cp $ROOT_CA_CERTIFICATE ./client/budget/msp/cacerts
-cp ./client/budget/admin/msp/signcerts/* ./client/budget/msp/admincerts   
+mkdir -p ./client/astu-service/msp/admincerts
+mkdir ./client/astu-service/msp/cacerts
+mkdir ./client/astu-service/msp/keystore
+cp $ROOT_CA_CERTIFICATE ./client/astu-service/msp/cacerts
+cp ./client/astu-service/admin/msp/signcerts/* ./client/astu-service/msp/admincerts
 
 ######################
 # Orderer Enrollment #
@@ -82,53 +82,53 @@ cp -a $PWD/client/orderer/admin/msp/signcerts  $FABRIC_CA_CLIENT_HOME/msp/adminc
 ####################
 # Peer Enrollments #
 ####################
-export FABRIC_CA_CLIENT_HOME=$PWD/client/acme/admin
-fabric-ca-client register --id.type peer --id.name acme-peer1 --id.secret adminpw --id.affiliation acme 
-export FABRIC_CA_CLIENT_HOME=$PWD/client/acme/peer1
-fabric-ca-client enroll -u http://acme-peer1:adminpw@localhost:7054
-cp -a $PWD/client/acme/admin/msp/signcerts  $FABRIC_CA_CLIENT_HOME/msp/admincerts
+export FABRIC_CA_CLIENT_HOME=$PWD/client/astu/admin
+fabric-ca-client register --id.type peer --id.name astu-peer1 --id.secret adminpw --id.affiliation astu
+export FABRIC_CA_CLIENT_HOME=$PWD/client/astu/peer1
+fabric-ca-client enroll -u http://astu-peer1:adminpw@localhost:7054
+cp -a $PWD/client/astu/admin/msp/signcerts  $FABRIC_CA_CLIENT_HOME/msp/admincerts
 
-export FABRIC_CA_CLIENT_HOME=$PWD/client/budget/admin
-fabric-ca-client register --id.type peer --id.name budget-peer1 --id.secret adminpw --id.affiliation budget
-export FABRIC_CA_CLIENT_HOME=$PWD/client/budget/peer1
-fabric-ca-client enroll -u http://budget-peer1:adminpw@localhost:7054
-cp -a $PWD/client/budget/admin/msp/signcerts  $FABRIC_CA_CLIENT_HOME/msp/admincerts
+export FABRIC_CA_CLIENT_HOME=$PWD/client/astu-service/admin
+fabric-ca-client register --id.type peer --id.name astu-service-peer1 --id.secret adminpw --id.affiliation astu-service
+export FABRIC_CA_CLIENT_HOME=$PWD/client/astu-service/peer1
+fabric-ca-client enroll -u http://astu-service-peer1:adminpw@localhost:7054
+cp -a $PWD/client/astu-service/admin/msp/signcerts  $FABRIC_CA_CLIENT_HOME/msp/admincerts
 
 
 ##############################
-# User Enrollments Acme only #
+# User Enrollments Astu only #
 ##############################
-export FABRIC_CA_CLIENT_HOME=$PWD/client/acme/admin
+export FABRIC_CA_CLIENT_HOME=$PWD/client/astu/admin
 ATTRIBUTES='"hf.AffiliationMgr=false:ecert","hf.Revoker=false:ecert","app.accounting.role=manager:ecert","department=accounting:ecert"'
-fabric-ca-client register --id.type user --id.name mary --id.secret pw --id.affiliation acme --id.attrs $ATTRIBUTES
-export FABRIC_CA_CLIENT_HOME=$PWD/client/acme/mary
+fabric-ca-client register --id.type user --id.name mary --id.secret pw --id.affiliation astu --id.attrs $ATTRIBUTES
+export FABRIC_CA_CLIENT_HOME=$PWD/client/astu/mary
 fabric-ca-client enroll -u http://mary:pw@localhost:7054
-cp -a $PWD/client/acme/admin/msp/signcerts  $FABRIC_CA_CLIENT_HOME/msp/admincerts
+cp -a $PWD/client/astu/admin/msp/signcerts  $FABRIC_CA_CLIENT_HOME/msp/admincerts
 
-export FABRIC_CA_CLIENT_HOME=$PWD/client/acme/admin
+export FABRIC_CA_CLIENT_HOME=$PWD/client/astu/admin
 ATTRIBUTES='"hf.AffiliationMgr=false:ecert","hf.Revoker=false:ecert","app.accounting.role=accountant:ecert","department=accounting:ecert"'
-fabric-ca-client register --id.type user --id.name john --id.secret pw --id.affiliation acme --id.attrs $ATTRIBUTES
-export FABRIC_CA_CLIENT_HOME=$PWD/client/acme/john
+fabric-ca-client register --id.type user --id.name john --id.secret pw --id.affiliation astu --id.attrs $ATTRIBUTES
+export FABRIC_CA_CLIENT_HOME=$PWD/client/astu/john
 fabric-ca-client enroll -u http://john:pw@localhost:7054
-cp -a $PWD/client/acme/admin/msp/signcerts  $FABRIC_CA_CLIENT_HOME/msp/admincerts
+cp -a $PWD/client/astu/admin/msp/signcerts  $FABRIC_CA_CLIENT_HOME/msp/admincerts
 
-export FABRIC_CA_CLIENT_HOME=$PWD/client/acme/admin
+export FABRIC_CA_CLIENT_HOME=$PWD/client/astu/admin
 ATTRIBUTES='"hf.AffiliationMgr=false:ecert","hf.Revoker=false:ecert","department=logistics:ecert","app.logistics.role=specialis:ecert"'
-fabric-ca-client register --id.type user --id.name anil --id.secret pw --id.affiliation acme --id.attrs $ATTRIBUTES
-export FABRIC_CA_CLIENT_HOME=$PWD/client/acme/anil
+fabric-ca-client register --id.type user --id.name anil --id.secret pw --id.affiliation astu --id.attrs $ATTRIBUTES
+export FABRIC_CA_CLIENT_HOME=$PWD/client/astu/anil
 fabric-ca-client enroll -u http://anil:pw@localhost:7054
-cp -a $PWD/client/acme/admin/msp/signcerts  $FABRIC_CA_CLIENT_HOME/msp/admincerts
+cp -a $PWD/client/astu/admin/msp/signcerts  $FABRIC_CA_CLIENT_HOME/msp/admincerts
 
 # Shutdown CA
 docker-compose -f docker-compose-ca.yaml down
 
 # Setup network config
 export FABRIC_CFG_PATH=$PWD/config
-configtxgen -outputBlock  ./config/orderer/airline-genesis.block -channelID ordererchannel  -profile AirlineOrdererGenesis
-configtxgen -outputCreateChannelTx  ./config/airlinechannel.tx -channelID airlinechannel  -profile AirlineChannel
+configtxgen -outputBlock  ./config/orderer/docs-genesis.block -channelID ordererchannel  -profile DocsOrdererGenesis
+configtxgen -outputCreateChannelTx  ./config/docschannel.tx -channelID docschannel  -profile DocsChannel
 
-ANCHOR_UPDATE_TX=./config/airline-anchor-update-acme.tx
-configtxgen -profile AirlineChannel -outputAnchorPeersUpdate $ANCHOR_UPDATE_TX -channelID airlinechannel -asOrg AcmeMSP
+ANCHOR_UPDATE_TX=./config/docs-anchor-update-astu.tx
+configtxgen -profile DocsChannel -outputAnchorPeersUpdate $ANCHOR_UPDATE_TX -channelID docschannel -asOrg AstuMSP
 
-ANCHOR_UPDATE_TX=./config/airline-anchor-update-budget.tx
-configtxgen -profile AirlineChannel -outputAnchorPeersUpdate $ANCHOR_UPDATE_TX -channelID airlinechannel -asOrg BudgetMSP
+ANCHOR_UPDATE_TX=./config/docs-anchor-update-astu-service.tx
+configtxgen -profile DocsChannel -outputAnchorPeersUpdate $ANCHOR_UPDATE_TX -channelID docschannel -asOrg Astu-ServiceMSP

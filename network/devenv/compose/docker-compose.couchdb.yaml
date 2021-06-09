@@ -3,14 +3,14 @@
 version: '2'
 
 networks:
-  airline:
+  docs:
 
 services:
   
 
-  # Acme peer1
-  acme-peer1.couchdb:
-    container_name: acme-peer1.couchdb
+  # Astu peer1
+  astu-peer1.couchdb:
+    container_name: astu-peer1.couchdb
     image: hyperledger/fabric-couchdb
     environment:
       - COUCHDB_USER=
@@ -18,21 +18,21 @@ services:
     ports:
       - "5984:5984"
     networks:
-      - airline
+      - docs
 
-  acme-peer1.acme.com:
-    container_name: acme-peer1.acme.com
+  astu-admin-peer1.astu.com:
+    container_name: astu-admin-peer1.astu.com
     environment:
       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
-      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=acme-peer1.couchdb:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=astu-peer1.couchdb:5984
       - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=
       - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=
     depends_on:
-      - acme-peer1.couchdb
+      - astu-peer1.couchdb
 
-  # Budget peer1
-  budget-peer1.couchdb:
-    container_name: budget-peer1.couchdb
+  # Astu-Service peer1
+  astu-service-peer1.couchdb:
+    container_name: astu-service-peer1.couchdb
     image: hyperledger/fabric-couchdb
     environment:
       - COUCHDB_USER=
@@ -40,15 +40,15 @@ services:
     ports:
       - "6984:5984"
     networks:
-      - airline
+      - docs
 
-  budget-peer1.budget.com:
-    container_name: budget-peer1.budget.com
+  astu-service-peer1.astu.com:
+    container_name: astu-service-peer1.astu.com
     environment:
       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
-      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=budget-peer1.couchdb:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=astu-service-peer1.couchdb:5984
       - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=
       - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=
     depends_on:
-      - budget-peer1.couchdb
+      - astu-service-peer1.couchdb
     

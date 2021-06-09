@@ -14,7 +14,7 @@ function usage {
     echo "event.sh   -t [EVENT_TYPE = chaincode (default)  |  block | txn]"
     echo "           -n [CC_NAME = Default picked from chain environment]"
     echo "           -e EVENT_NAME = Must provide name of the event"
-    echo "           -c CHANNEL_ID = Channel ID default=airlinechannel"
+    echo "           -c CHANNEL_ID = Channel ID default=docschannel"
     echo "           -C CRYPTO_TYPE = cryptogen | fabric-ca"
 }
 

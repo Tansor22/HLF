@@ -13,7 +13,7 @@ function usage {
     echo   "                        -s Sequence number            -I  true | false --init-required "
     echo   "                        -g Signature Policy           -G  Channel Config Policy"
     echo   "                        -R  private data collection   -z  Resets the parameters"
-    echo   "                        -e auto | acme | budget | both       Endorsing peers "
+    echo   "                        -e auto | astu | astu-service | both       Endorsing peers "
     echo   "                        -L log level for chaincode    -S  log level for shim"
     echo   "MUST always specify -l with -p"
     echo   "-l   golang | node | java"
@@ -31,7 +31,7 @@ function reset_chaincode_variables {
     CC_PATH=chaincode_example02
     CC_NAME=gocc
     CC_VERSION="1.0"
-    CC_CHANNEL_ID=airlinechannel
+    CC_CHANNEL_ID=docschannel
     CC_CONSTRUCTOR='{"Args":["init","a","100","b","300"]}'
     CC_QUERY_ARGS='{"Args":["query","b"]}'
     CC_INVOKE_ARGS='{"Args":["invoke","a","b","5"]}'

@@ -3,7 +3,7 @@
 # Provides easy access to the chaincode container logs
 
 usage() {
-    echo "cc-logs.sh   [-o ORG_NAME default=acme]  [-p PEER_NAME default=acme-peer1] [-f   Follow] [-t  Number]"
+    echo "cc-logs.sh   [-o ORG_NAME default=astu]  [-p PEER_NAME default=astu-peer1] [-f   Follow] [-t  Number]"
     echo "              Shows the logs for the chaincode container. "
     echo "              -f follows the logs, useful when debugging in net mode "
     echo "              -t flag is equivalent to --tail flag for docker logs"

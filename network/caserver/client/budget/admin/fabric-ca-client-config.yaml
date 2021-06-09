@@ -99,7 +99,7 @@ tls:
 #
 #############################################################################
 csr:
-  cn: budget-admin
+  cn: astu-service-admin
   keyrequest:
     algo: ecdsa
     size: 256

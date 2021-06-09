@@ -145,13 +145,13 @@ ldap:
 # Affiliations 
 #############################################################################
 affiliations:
-  acme:
+  astu:
     - logistics
     - accounting
     - b2b
   orderer:
     - support
-  budget:
+  astu-service:
     - b2b
 
 #############################################################################
@@ -192,7 +192,7 @@ csr:
     - C: US
       ST: "New Jersey"
       L:
-      O: Acme
+      O: Astu
       OU: Support
   hosts:
     - root.caserver.com

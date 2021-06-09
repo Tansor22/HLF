@@ -1,8 +1,8 @@
 dev-init.sh -s
 (coachDb - http://localhost:5984/_utils/)
-. set-env.sh acme
+. set-env.sh astu
 
-set-chain-env.sh -p docs -n docs -v 1.0 -c '{"Args":["init"]}' -C airlinechannel
+set-chain-env.sh -p docs -n docs -v 1.0 -c '{"Args":["init"]}' -C docschannel
 
 chain.sh install -p
 

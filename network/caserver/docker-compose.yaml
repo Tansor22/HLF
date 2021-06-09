@@ -1,21 +1,21 @@
 version: '2'
 
 networks:
-  airline:
+  docs:
 
 services:
   # Orderer
-  orderer.acme.com:
-    container_name: orderer.acme.com
+  orderer.astu.com:
+    container_name: orderer.astu.com
     image: hyperledger/fabric-orderer:$IMAGE_TAG
     environment:
       - FABRIC_CFG_PATH=/var/hyperledger/config
       # - ORDERER_GENERAL_LOGLEVEL=DEBUG
       - FABRIC_LOGGING_SPEC=INFO
-      - ORDERER_GENERAL_LISTENADDRESS=orderer.acme.com
+      - ORDERER_GENERAL_LISTENADDRESS=orderer.astu.com
       - ORDERER_GENERAL_GENESISMETHOD=file
-      # - ORDERER_GENERAL_GENESISFILE=/var/hyperledger/genesis/airline-genesis.block
-      - ORDERER_GENERAL_BOOTSTRAPFILE=/var/hyperledger/genesis/airline-genesis.block
+      # - ORDERER_GENERAL_GENESISFILE=/var/hyperledger/genesis/docs-genesis.block
+      - ORDERER_GENERAL_BOOTSTRAPFILE=/var/hyperledger/genesis/docs-genesis.block
       - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
       - ORDERER_GENERAL_LOCALMSPDIR=/var/hyperledger/msp
       - ORDERER_FILELEDGER_LOCATION=/var/ledger
@@ -28,15 +28,15 @@ services:
     - ${PWD}/client/orderer/orderer//msp:/var/hyperledger/msp
     # Map the current folder to cfg
     - ${PWD}/config/orderer:/var/hyperledger/config
-    - ${HOME}/ledgers/ca/orderer.acme.com:/var/ledger
+    - ${HOME}/ledgers/ca/orderer.astu.com:/var/ledger
     ports:
       - 7050:7050
     networks:
-      - airline
+      - docs
 
-  # Acme peer1
-  acme-peer1.acme.com:
-    container_name: acme-peer1.acme.com
+  # Astu peer1
+  astu-admin-peer1.astu.com:
+    container_name: astu-admin-peer1.astu.com
     image: hyperledger/fabric-peer:$IMAGE_TAG
     environment:
       - FABRIC_CFG_PATH=/var/hyperledger/config
@@ -45,16 +45,16 @@ services:
 
       - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
 
-      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${COMPOSE_PROJECT_NAME}_airline
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${COMPOSE_PROJECT_NAME}_docs
 
-      - CORE_PEER_ID=acme-peer1.acme.com
-      # - CORE_PEER_LISTENADDRESS=budget-peer1.budget.com:7051
-      - CORE_PEER_ADDRESS=acme-peer1.acme.com:7051
-      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=acme-peer1.acme.com:7051
+      - CORE_PEER_ID=astu-admin-peer1.astu.com
+      # - CORE_PEER_LISTENADDRESS=astu-service-peer1.astu.com:7051
+      - CORE_PEER_ADDRESS=astu-admin-peer1.astu.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=astu-admin-peer1.astu.com:7051
       # - CORE_PEER_ADDRESS=0.0.0.0:7051
       # - CORE_PEER_GOSSIP_EXTERNALENDPOINT=0.0.0.0:7051
 
-      - CORE_PEER_LOCALMSPID=AcmeMSP
+      - CORE_PEER_LOCALMSPID=AstuMSP
       - CORE_PEER_MSPCONFIGPATH=/var/hyperledger/msp
       - CORE_PEER_TLS_ENABLED=false
       # - CORE_PEER_GOSSIP_USELEADERELECTION=true
@@ -69,24 +69,24 @@ services:
       # Folder with channel create tx file
       - ${PWD}/config:/var/hyperledger/channeltx
       # Map the folder with MSP for Peer
-      - ${PWD}/client/acme/peer1/msp:/var/hyperledger/msp
+      - ${PWD}/client/astu/peer1/msp:/var/hyperledger/msp
       # Map the current folder to cfg
       - ${PWD}/config:/var/hyperledger/config
       - /var/run/:/host/var/run/
       # Ledger folder for the peer
-      - ${HOME}/ledgers/ca/acme-peer1.acme.com/:/var/ledger
+      - ${HOME}/ledgers/ca/astu-admin-peer1.astu.com/:/var/ledger
     depends_on: 
-      - orderer.acme.com
+      - orderer.astu.com
     ports:
       - 7051:7051
       - 7052:7052
       - 7053:7053
     networks:
-      - airline
+      - docs
 
-  # Budget peer1
-  budget-peer1.budget.com:
-    container_name: budget-peer1.budget.com
+  # Astu-Service peer1
+  astu-service-peer1.astu.com:
+    container_name: astu-service-peer1.astu.com
     image: hyperledger/fabric-peer:$IMAGE_TAG
     environment:
       - FABRIC_CFG_PATH=/var/hyperledger/config
@@ -95,15 +95,15 @@ services:
 
       - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
 
-      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${COMPOSE_PROJECT_NAME}_airline
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${COMPOSE_PROJECT_NAME}_docs
 
-      - CORE_PEER_ID=budget-peer1.budget.com
-      - CORE_PEER_ADDRESS=budget-peer1.budget.com:8051
-      # - CORE_PEER_LISTENADDRESS=budget-peer1.budget.com:8051
-      - CORE_PEER_LISTENADDRESS=budget-peer1.budget.com:8051
-      - CORE_PEER_CHAINCODELISTENADDRESS=budget-peer1.budget.com:8052
-      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=budget-peer1.budget.com:8051
-      - CORE_PEER_LOCALMSPID=BudgetMSP
+      - CORE_PEER_ID=astu-service-peer1.astu.com
+      - CORE_PEER_ADDRESS=astu-service-peer1.astu.com:8051
+      # - CORE_PEER_LISTENADDRESS=astu-service-peer1.astu.com:8051
+      - CORE_PEER_LISTENADDRESS=astu-service-peer1.astu.com:8051
+      - CORE_PEER_CHAINCODELISTENADDRESS=astu-service-peer1.astu.com:8052
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=astu-service-peer1.astu.com:8051
+      - CORE_PEER_LOCALMSPID=Astu-ServiceMSP
       - CORE_PEER_MSPCONFIGPATH=/var/hyperledger/msp
       - CORE_PEER_TLS_ENABLED=false
       # - CORE_PEER_GOSSIP_USELEADERELECTION=true
@@ -118,19 +118,19 @@ services:
       # Folder with channel create tx file
       - ${PWD}/config:/var/hyperledger/channeltx
       # Map the folder with MSP for Peer
-      - ${PWD}/client/budget/peer1/msp:/var/hyperledger/msp
+      - ${PWD}/client/astu-service/peer1/msp:/var/hyperledger/msp
       # Map the current folder to cfg
       - ${PWD}/config:/var/hyperledger/config
       - /var/run/:/host/var/run/
       # Ledger folder for the peer
-      - ${HOME}/ledgers/ca/budget-peer1.budget.com:/var/ledger
+      - ${HOME}/ledgers/ca/astu-service-peer1.astu.com:/var/ledger
     depends_on: 
-      - orderer.acme.com
+      - orderer.astu.com
     ports:
       - 8051:8051
       - 8052:8052
       - 8053:8053
     networks:
-      - airline
+      - docs
 
   

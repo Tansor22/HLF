@@ -6,5 +6,5 @@ ca-dev-init.sh
 
 
 export FABRIC_CFG_PATH=$PWD/config
-configtxgen -outputBlock  ./config/airlinegenesis.block -channelID ordererchannel  -profile AirlineOrdererGenesis
-configtxgen -outputCreateChannelTx  ./config/airlinechannel.tx -channelID airlinechannel  -profile AirlineChannel
+configtxgen -outputBlock  ./config/docsgenesis.block -channelID ordererchannel  -profile DocsOrdererGenesis
+configtxgen -outputCreateChannelTx  ./config/docschannel.tx -channelID docschannel  -profile DocsChannel

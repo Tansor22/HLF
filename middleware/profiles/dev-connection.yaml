@@ -18,15 +18,15 @@ version: "1.0"
 # list of participating organizations in this network
 #
 organizations:
-  Acme:
-    mspid: AcmeMSP
+  Astu:
+    mspid: AstuMSP
     peers:
-      - acme-peer1.acme.com
+      - astu-admin-peer1.astu.com
 
-  Budget:
-    mspid: BudgetMSP
+  Astu-Service:
+    mspid: Astu-ServiceMSP
     peers:
-      - budget-peer1.budget.com
+      - astu-service-peer1.astu.com
 
 #
 # [Optional]. But most apps would have this section so that channel objects can be constructed
@@ -35,23 +35,23 @@ organizations:
 #
 channels:
   # name of the channel
-  airlinechannel:
+  docschannel:
     # List of orderers designated by the application to use for transactions on this channel. 
     orderers:
-      - orderer.acme.com
+      - orderer.astu.com
 
     # Required. list of peers from participating orgs
     peers:
-      # Acme peer - with roles played by the peer
-      acme-peer1.acme.com:
+      # Astu peer - with roles played by the peer
+      astu-admin-peer1.astu.com:
         # Roles for which this peer may be used
         endorsingPeer: true
         chaincodeQuery: true
         ledgerQuery: true
         eventSource: true
 
-      # Budget peer - with roles played by the peer
-      budget-peer1.acme.com:
+      # Astu-Service peer - with roles played by the peer
+      astu-service-peer1.astu.com:
         # Roles for which this peer may be used
         endorsingPeer: false  # SDK will NOT send request for endorsements to this peer
         chaincodeQuery: true
@@ -66,13 +66,13 @@ channels:
 # being only one orderer is needed. 
 #
 orderers:
-  orderer.acme.com:
+  orderer.astu.com:
     url: grpc://localhost:7050
 
     # these are standard properties defined by the gRPC library
     # they will be passed in as-is to gRPC client constructor
     grpcOptions:
-      ssl-target-name-override: orderer.acme.com
+      ssl-target-name-override: orderer.astu.com
 
     # In dev environment the Orderer is NOT enabled for TLS
     # tlsCACerts:
@@ -83,22 +83,22 @@ orderers:
 # and event listener registration.
 #
 peers:
-  acme-peer1.acme.com:
+  astu-admin-peer1.astu.com:
 
     url: grpc://127.0.0.1:7051
 
     # grpcOptions:
-    #   ssl-target-name-override: peer0.acme.com
+    #   ssl-target-name-override: peer0.astu.com
 
     # tlsCACerts:
     #   path: [ This need to be set if TLS is enabled on peer]
 
-  budget-peer1.budget.com:
+  astu-service-peer1.astu.com:
 
     url: grpc://localhost:8051
 
     # grpcOptions:
-    #   ssl-target-name-override: budget-peer1.budget.com
+    #   ssl-target-name-override: astu-service-peer1.astu.com
 
     # tlsCACerts:
     #   path: [ This need to be set if TLS is enabled on peer]

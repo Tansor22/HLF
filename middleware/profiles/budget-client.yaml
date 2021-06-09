@@ -1,19 +1,19 @@
 # Sample YAML for client config
-name: "Budget Client"
+name: "Astu-Service Client"
 version: "1.0"
-description: "Client section for Budget"
+description: "Client section for Astu-Service"
 
 # Client section describes the client
 client:
   # Org name
-  organization: budget
+  organization: astu-service
   # User context storage
   credentialStore:
     # State
-    path: "./credstore/budget/hfc-kvs"
+    path: "./credstore/astu-service/hfc-kvs"
     # Public & Private key
     cryptoStore:
-      path: "./credstore/budget/hfc-cvs"
+      path: "./credstore/astu-service/hfc-cvs"
 
   #GRPC options
   connection:

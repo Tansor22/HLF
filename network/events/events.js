@@ -42,10 +42,10 @@ createYAMLCryptogen(obj)
 
 /** Launch the listener */
 Client.setConfigSetting('nw-config','./nw-config.yaml');
-Client.setConfigSetting('acme-con-profile','./acme-client.yaml');
+Client.setConfigSetting('astu-con-profile','./astu-client.yaml');
 
 let client = Client.loadFromConfig(Client.getConfigSetting('nw-config'));
-client.loadFromConfig(Client.getConfigSetting('acme-con-profile'));
+client.loadFromConfig(Client.getConfigSetting('astu-con-profile'));
 
 
 async function launch(){
@@ -66,7 +66,7 @@ function    blockListener() {
 
     var channel = client.getChannel(channelId)
 
-    var channel_event_hub = channel.newChannelEventHub('acme-peer1.acme.com');
+    var channel_event_hub = channel.newChannelEventHub('astu-admin-peer1.astu.com');
 
     var block_reg = channel_event_hub.registerBlockEvent((block) => {
         console.log('Successfully received the block number=',block.header.number);
@@ -84,7 +84,7 @@ function    blockListener() {
 function chaincodeEventListener() {
     var channel = client.getChannel(channelId)
 
-    var channel_event_hub = channel.newChannelEventHub('acme-peer1.acme.com');
+    var channel_event_hub = channel.newChannelEventHub('astu-admin-peer1.astu.com');
 
     var cc_reg = channel_event_hub.registerChaincodeEvent(ccName,ccEvent,(event, block_num, txnid, status)=>{
         var payload = event.payload
@@ -102,30 +102,30 @@ function chaincodeEventListener() {
 
 // Generates the YAML based on the 
 function createYAMLCryptogen(obj){
-    let acmeCert = genCertPathCryptogen('acme')
-    let acmePk = genPkCryptogen("acme")
-    obj.organizations.Acme.signedCert.path=acmeCert
-    obj.organizations.Acme.adminPrivateKey.path=acmePk
-    let budgetCert = genCertPathCryptogen('budget')
-    let budgetPk = genPkCryptogen("budget")
-    obj.organizations.Budget.signedCert.path=budgetCert
-    obj.organizations.Budget.adminPrivateKey.path=budgetPk
+    let astuCert = genCertPathCryptogen('astu')
+    let astuPk = genPkCryptogen("astu")
+    obj.organizations.Astu.signedCert.path=astuCert
+    obj.organizations.Astu.adminPrivateKey.path=astuPk
+    let astu-serviceCert = genCertPathCryptogen('astu-service')
+    let astu-servicePk = genPkCryptogen("astu-service")
+    obj.organizations.Astu-Service.signedCert.path=astu-serviceCert
+    obj.organizations.Astu-Service.adminPrivateKey.path=astu-servicePk
 
-    // console.log(acmeCert)
+    // console.log(astuCert)
     yaml.writeSync("nw-config.yaml", obj)
 
     console.log("+ Successfully generated Network config YAML")
 }
 
 function genCertPathCryptogen(org){ 
-    //budget.com/users/Admin@budget.com/msp/signcerts/Admin@budget.com-cert.pem"
+    //astu-service.com/users/Admin@astu-service.com/msp/signcerts/Admin@astu-service.com-cert.pem"
     var certPath=cryptoFolder+"/"+org+".com/users/Admin@"+org+".com/msp/signcerts/Admin@"+org+".com-cert.pem"
     return certPath
 }
 
 // looks for the PK files in the org folder
 function    genPkCryptogen(org){
-    // ../crypto/crypto-config/peerOrganizations/budget.com/users/Admin@budget.com/msp/keystore/05beac9849f610ad5cc8997e5f45343ca918de78398988def3f288b60d8ee27c_sk
+    // ../crypto/crypto-config/peerOrganizations/astu-service.com/users/Admin@astu-service.com/msp/keystore/05beac9849f610ad5cc8997e5f45343ca918de78398988def3f288b60d8ee27c_sk
     var pkFolder=cryptoFolder+"/"+org+".com/users/Admin@"+org+".com/msp/keystore"
     let pkfile=""
     fs.readdirSync(pkFolder).forEach(file => {

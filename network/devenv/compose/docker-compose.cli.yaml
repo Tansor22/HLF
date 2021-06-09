@@ -3,7 +3,7 @@
 version: '2'
 
 networks:
-  airline:
+  docs:
 
 services:
   
@@ -15,8 +15,8 @@ services:
     stdin_open: true
     environment:
       - GOPATH=/opt/gopath
-      - CORE_PEER_ADDRESS=acme-peer1.acme.com:7051
-      - CORE_PEER_LOCALMSPID=AcmeMSP
+      - CORE_PEER_ADDRESS=astu-admin-peer1.astu.com:7051
+      - CORE_PEER_LOCALMSPID=AstuMSP
       - FABRIC_CFG_PATH=/var/hyperledger/config
       - CORE_PEER_TLS_ENABLED=false
       # - CORE_LOGGING_LEVEL=debug
@@ -37,6 +37,6 @@ services:
       # Map the nodechaincode folder
       - ${PWD}/../tests:/opt/chaincode
     networks:
-      - airline
+      - docs
   
   

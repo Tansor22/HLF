@@ -27,22 +27,22 @@ Organizations:
          Type: Signature
          Rule: "OR('OrdererMSP.admin')"
 
- - &Acme
-   Name: Acme
-   ID: AcmeMSP
-   MSPDir: ../../ca/multi-org-ca/client/acme/msp
-   Policies: &AcmePolicies
+ - &Astu
+   Name: Astu
+   ID: AstuMSP
+   MSPDir: ../../ca/multi-org-ca/client/astu/msp
+   Policies: &AstuPolicies
      Readers:
          Type: Signature
-         Rule: "OR('AcmeMSP.member')"
+         Rule: "OR('AstuMSP.member')"
      Writers:
          Type: Signature
-         Rule: "OR('AcmeMSP.member')"
+         Rule: "OR('AstuMSP.member')"
      Admins:
          Type: Signature
-         Rule: "OR('AcmeMSP.admin')"
+         Rule: "OR('AstuMSP.admin')"
    AnchorPeers:
-     - Host: acme-peer1.acme.com
+     - Host: astu-admin-peer1.astu.com
        Port: 7051
 
 #   ORDERER
@@ -51,7 +51,7 @@ Orderer: &OrdererDefaults
  OrdererType: solo
 
  Addresses:
-   - orderer.acme.com:7050
+   - orderer.astu.com:7050
 
    # Policies for Orderer
  Policies:
@@ -186,7 +186,7 @@ Channel: &ChannelDefaults
  #   PROFILES
 Profiles:
 
- AirlineOrdererGenesis:
+ DocsOrdererGenesis:
      <<: *ChannelDefaults
      Orderer:
          <<: *OrdererDefaults
@@ -198,24 +198,24 @@ Profiles:
            <<: *ApplicationDefaults
 
            Organizations:
-               - <<: *Acme              
+               - <<: *Astu
 
      Consortiums:
 
-       AirlineConsortium:
+       DocsConsortium:
           
            Organizations:
-                 - <<: *Acme                              
+                 - <<: *Astu
                 
- AirlineChannel:
+ DocsChannel:
    <<: *ChannelDefaults
-   Consortium: AirlineConsortium
+   Consortium: DocsConsortium
       
    Application:
        <<: *ApplicationDefaults
       
        Organizations:
-           - <<: *Acme
+           - <<: *Astu
       
 
 

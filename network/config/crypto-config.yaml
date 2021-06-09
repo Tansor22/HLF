@@ -5,33 +5,37 @@
 #  - Org2  = Another peer organization
 # SOLUTION to the exercise
 
-##### Orderer for acme
+##### Orderer for astu
 OrdererOrgs:
   - Name: Orderer
-    Domain: acme.com
+    Domain: astu.com
     EnableNodeOUs: true
     Specs:
       - Hostname: orderer
       
-#### Peers for acme
+#### Peers for astu
 PeerOrgs:
   # Peer configuration for ACME
-  - Name: Acme
-    Domain: acme.com
+  - Name: Astu
+    #Domain: astu.com
+    Domain: astu.com
     EnableNodeOUs: true
     Specs:
-      - Hostname: acme-peer1
-        CommonName: acme-peer1
+      - Hostname: astu-peer1
+      #- Hostname: astu-peer1
+        CommonName: astu-peer1
     Users:
       Count: 1
 
-  # Peer configuration for Budget
-  - Name: Budget
-    Domain: budget.com
+  # Peer configuration for Astu-Service
+  - Name: Astu-Service
+    #Domain: astu-service.com
+    Domain: astu-service.com
     EnableNodeOUs: true
     Specs:
-      - Hostname: budget-peer1
-        CommonName: budget-peer1
+      - Hostname: astu-service-peer1
+      #- Hostname: astu-service-peer1
+        CommonName: astu-service-peer1
     Users:
       Count: 1
 

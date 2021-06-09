@@ -7,9 +7,9 @@ const CONNECTION_PROFILE_PATH = '../profiles/dev-connection.yaml'
 // Path to the wallet
 const FILESYSTEM_WALLET_PATH = './user-wallet'
 // Identity context used
-const USER_ID = 'Admin@acme.com'
+const USER_ID = 'Admin@astu.com'
 // Channel name
-const NETWORK_NAME = 'airlinechannel'
+const NETWORK_NAME = 'docschannel'
 // Chaincode
 const CONTRACT_ID = "erc20"
 

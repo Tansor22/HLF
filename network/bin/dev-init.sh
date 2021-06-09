@@ -119,22 +119,22 @@ export FABRIC_CFG_PATH=$DIR/../config
 
 # Create the Genesis Block
 echo    '================ Writing Genesis Block ================'
-GENESIS_BLOCK=$DIR/../config/airline-genesis.block
+GENESIS_BLOCK=$DIR/../config/docs-genesis.block
 ORDERER_CHANNEL_ID=ordererchannel
-configtxgen -profile AirlineOrdererGenesis -outputBlock $GENESIS_BLOCK -channelID $ORDERER_CHANNEL_ID
+configtxgen -profile DocsOrdererGenesis -outputBlock $GENESIS_BLOCK -channelID $ORDERER_CHANNEL_ID
 
-echo    '================ Writing airlinechannel ================'
-CHANNEL_ID=airlinechannel
-CHANNEL_CREATE_TX=$DIR/../config/airline-channel.tx
-configtxgen -profile AirlineChannel -outputCreateChannelTx $CHANNEL_CREATE_TX -channelID $CHANNEL_ID
+echo    '================ Writing docschannel ================'
+CHANNEL_ID=docschannel
+CHANNEL_CREATE_TX=$DIR/../config/docs-channel.tx
+configtxgen -profile DocsChannel -outputCreateChannelTx $CHANNEL_CREATE_TX -channelID $CHANNEL_ID
 
 echo    '================ Generate the anchor Peer updates ======'
 
-ANCHOR_UPDATE_TX=$DIR/../config/airline-anchor-update-acme.tx
-configtxgen -profile AirlineChannel -outputAnchorPeersUpdate $ANCHOR_UPDATE_TX -channelID $CHANNEL_ID -asOrg AcmeMSP
+ANCHOR_UPDATE_TX=$DIR/../config/docs-anchor-update-astu.tx
+configtxgen -profile DocsChannel -outputAnchorPeersUpdate $ANCHOR_UPDATE_TX -channelID $CHANNEL_ID -asOrg AstuMSP
 
-ANCHOR_UPDATE_TX=$DIR/../config/airline-anchor-update-budget.tx
-configtxgen -profile AirlineChannel -outputAnchorPeersUpdate $ANCHOR_UPDATE_TX -channelID $CHANNEL_ID -asOrg BudgetMSP
+ANCHOR_UPDATE_TX=$DIR/../config/docs-anchor-update-astu-service.tx
+configtxgen -profile DocsChannel -outputAnchorPeersUpdate $ANCHOR_UPDATE_TX -channelID $CHANNEL_ID -asOrg Astu-ServiceMSP
 
 echo    '================ Launch the network ================'
 $DIR/dev-start.sh
@@ -146,39 +146,39 @@ if [ "$LAUNCH_SCRIPT_DB" != "" ]; then
 fi
 
 export CORE_PEER_ID=init.sh
-echo    '========= Submitting txn for channel creation as AcmeAdmin ============'
+echo    '========= Submitting txn for channel creation as AstuAdmin ============'
 CRYPTO_CONFIG_ROOT_FOLDER=$DIR/../crypto/crypto-config/peerOrganizations
-ORG_NAME=acme.com
-CHANNEL_TX_FILE=$DIR/../config/airline-channel.tx
+ORG_NAME=astu.com
+CHANNEL_TX_FILE=$DIR/../config/docs-channel.tx
 ORDERER_ADDRESS=localhost:7050
-export CORE_PEER_LOCALMSPID=AcmeMSP
-export CORE_PEER_MSPCONFIGPATH=$CRYPTO_CONFIG_ROOT_FOLDER/$ORG_NAME/users/Admin@acme.com/msp
-peer channel create -o $ORDERER_ADDRESS -c airlinechannel -f $CHANNEL_TX_FILE
+export CORE_PEER_LOCALMSPID=AstuMSP
+export CORE_PEER_MSPCONFIGPATH=$CRYPTO_CONFIG_ROOT_FOLDER/$ORG_NAME/users/Admin@astu.com/msp
+peer channel create -o $ORDERER_ADDRESS -c docschannel -f $CHANNEL_TX_FILE
 
 
 sleep $SLEEP_TIME
 
-echo    '========= Joining the acme-peer1 to Airline channel ============'
-AIRLINE_CHANNEL_BLOCK=./airlinechannel.block
-export CORE_PEER_ADDRESS=acme-peer1.acme.com:7051
+echo    '========= Joining the astu-peer1 to Docs channel ============'
+AIRLINE_CHANNEL_BLOCK=./docschannel.block
+export CORE_PEER_ADDRESS=astu-admin-peer1.astu.com:7051
 peer channel join -o $ORDERER_ADDRESS -b $AIRLINE_CHANNEL_BLOCK
-# Update anchor peer on channel for acme
+# Update anchor peer on channel for astu
 # sleep  3s
 sleep $SLEEP_TIME
-ANCHOR_UPDATE_TX=$DIR/../config/airline-anchor-update-acme.tx
-peer channel update -o $ORDERER_ADDRESS -c airlinechannel -f $ANCHOR_UPDATE_TX
+ANCHOR_UPDATE_TX=$DIR/../config/docs-anchor-update-astu.tx
+peer channel update -o $ORDERER_ADDRESS -c docschannel -f $ANCHOR_UPDATE_TX
 
-echo    '========= Joining the budget-peer1 to Airline channel ============'
-# peer channel fetch config $AIRLINE_CHANNEL_BLOCK -o $ORDERER_ADDRESS -c airlinechannel
-export CORE_PEER_LOCALMSPID=BudgetMSP
-ORG_NAME=budget.com
-export CORE_PEER_ADDRESS=budget-peer1.budget.com:8051
-export CORE_PEER_MSPCONFIGPATH=$CRYPTO_CONFIG_ROOT_FOLDER/$ORG_NAME/users/Admin@budget.com/msp
+echo    '========= Joining the astu-service-peer1 to Docs channel ============'
+# peer channel fetch config $AIRLINE_CHANNEL_BLOCK -o $ORDERER_ADDRESS -c docschannel
+export CORE_PEER_LOCALMSPID=Astu-ServiceMSP
+ORG_NAME=astu-service.com
+export CORE_PEER_ADDRESS=astu-service-peer1.astu.com:8051
+export CORE_PEER_MSPCONFIGPATH=$CRYPTO_CONFIG_ROOT_FOLDER/$ORG_NAME/users/Admin@astu-service.com/msp
 peer channel join -o $ORDERER_ADDRESS -b $AIRLINE_CHANNEL_BLOCK
-# Update anchor peer on channel for budget
+# Update anchor peer on channel for astu-service
 sleep  $SLEEP_TIME
-ANCHOR_UPDATE_TX=$DIR/../config/airline-anchor-update-budget.tx
-peer channel update -o $ORDERER_ADDRESS -c airlinechannel -f $ANCHOR_UPDATE_TX
+ANCHOR_UPDATE_TX=$DIR/../config/docs-anchor-update-astu-service.tx
+peer channel update -o $ORDERER_ADDRESS -c docschannel -f $ANCHOR_UPDATE_TX
 
 # Initialize the explorer only if -e option was used
 if [ "$LAUNCH_SCRIPT_EXPLORER" != "" ]; then
@@ -188,14 +188,14 @@ if [ "$LAUNCH_SCRIPT_EXPLORER" != "" ]; then
     echo  "Done. To validate execute validate.sh & hit browser to http://localhost:8080"
 fi
 
-echo    '========= Anchor peer update tx for BudgetMSP ====='
+echo    '========= Anchor peer update tx for Astu-ServiceMSP ====='
 
 
 
-echo    '========= Anchor peer update tx for AcmeMSP ====='
-# export ORG_NAME=acme.com
-# export CORE_PEER_LOCALMSPID=AcmeMSP
-# export CORE_PEER_MSPCONFIGPATH=$CRYPTO_CONFIG_ROOT_FOLDER/$ORG_NAME/users/Admin@acme.com/msp
+echo    '========= Anchor peer update tx for AstuMSP ====='
+# export ORG_NAME=astu.com
+# export CORE_PEER_LOCALMSPID=AstuMSP
+# export CORE_PEER_MSPCONFIGPATH=$CRYPTO_CONFIG_ROOT_FOLDER/$ORG_NAME/users/Admin@astu.com/msp
 
 
 

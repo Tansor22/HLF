@@ -99,7 +99,7 @@ tls:
 #
 #############################################################################
 csr:
-  cn: acme-peer1
+  cn: astu-peer1
   keyrequest:
     algo: ecdsa
     size: 256

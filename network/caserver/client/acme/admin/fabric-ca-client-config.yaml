@@ -99,7 +99,7 @@ tls:
 #
 #############################################################################
 csr:
-  cn: acme-admin
+  cn: astu-admin
   keyrequest:
     algo: ecdsa
     size: 256

@@ -13,7 +13,7 @@ source  utest.sh
 CC_PATH=token/ERC20
 CC_NAME=erc20
 CC_VERSION=1.0
-CC_CHANNEL_ID=airlinechannel
+CC_CHANNEL_ID=docschannel
 
 # Setup the logging level for peer binary
 # export CORE_LOGGING_LEVEL='INFO'
@@ -25,8 +25,8 @@ CC_ORIGINAL_NAME=$CC_NAME
 generate_unique_cc_name
 set-chain-env.sh -n $CC_NAME
 
-# Set the Organization Context to acme
-set_org_context  acme
+# Set the Organization Context to astu
+set_org_context  astu
 
 # Install
 chain_install 
@@ -63,15 +63,15 @@ extract_json "$QUERY_RESULT" '.response.balance'
 SAM_BALANCE=$EXTRACT_RESULT
 
 ############################## Test Case#4 ##########################################
-# Invoke again in the context of Budget org
-set_org_context     budget
+# Invoke again in the context of Astu-Service org
+set_org_context     astu-service
 
-# Install the chaincode on Budget peer
+# Install the chaincode on Astu-Service peer
 chain_install
 # Approve for the org
 chain_approveformyorg
 
-set_test_case   'From Budget Peer also Sam balance should be 10'
+set_test_case   'From Astu-Service Peer also Sam balance should be 10'
 CC_QUERY_ARGS='{"Args":["balanceOf","sam"]}' 
 chain_query
 assert_json_equal "$QUERY_RESULT"  '.response.balance'  "$SAM_BALANCE"

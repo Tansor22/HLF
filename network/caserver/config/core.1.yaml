@@ -131,7 +131,7 @@ peer:
         # organization, because the peer would refuse connecting to these endpoints
         # unless they are in the same organization as the peer.
         # bootstrap: 127.0.0.1:7051
-        bootstrap: acme-peer1.acme.com:7051
+        bootstrap: astu-admin-peer1.astu.com:7051
 
         # NOTE: orgLeader and useLeaderElection parameters are mutual exclusive.
         # Setting both to true would result in the termination of the peer

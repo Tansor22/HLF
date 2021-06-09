@@ -12,8 +12,8 @@ Functions
 
 Install
 =======
-Install the chaincode on the Acme Peer-1
-  .    set-env.sh    acme
+Install the chaincode on the Astu Peer-1
+  .    set-env.sh    astu
   set-chain-env.sh       -n erc20  -v 1.0   -p  token/ERC20   
   chain.sh install -p
 
@@ -48,7 +48,7 @@ Check the balance for 'john' & 'sam'
 Events Testing
 ==============
 Launch the events utility
- events.sh -t chaincode -n erc20 -e transfer -c airlinechannel 
+ events.sh -t chaincode -n erc20 -e transfer -c docschannel 
 
 In a <<Terminal #2> execute the invoke - observe transfer events in terminal 1
   set-chain-env.sh         -i   '{"Args":["transfer", "john", "sam", "10"]}'

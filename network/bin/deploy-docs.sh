@@ -1,8 +1,12 @@
 #!/bin/bash
 
-dev-init.sh -s
+dev-init.sh -s -e
+# -e means explorer
+# OR
+# exp-start.sh
+# - exp-stop.sh
 echo    "Installing the chaincode docs"
-.    set-env.sh    acme
+.    set-env.sh    astu
 set-chain-env.sh       -n docs  -v 1.0   -p  docs
 chain.sh install -p
 

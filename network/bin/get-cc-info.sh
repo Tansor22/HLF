@@ -2,8 +2,8 @@
 
 if [ "$FABRIC_CFG_PATH" == "" ]; then 
    echo "This script requires the Environment to be setup!!! Use one of the following:"
-   echo "> source  set-env.sh  acme"
-   echo "> source  set-env.sh  budget"
+   echo "> source  set-env.sh  astu"
+   echo "> source  set-env.sh  astu-service"
    exit
 fi
 
@@ -84,8 +84,8 @@ if [ "$?" == "0" ]; then
     # COMMITED_COLLECTIONS=$(echo $OUTPUT | jq .collections) 
     COMMITTED_CC_SEQUENCE=$(echo $OUTPUT | jq .sequence)
 
-    COMMITTED_APPROVAL_ACME=$(echo $OUTPUT | jq .approvals.AcmeMSP)
-    COMMITTED_APPROVAL_BUDGET=$(echo $OUTPUT | jq .approvals.BudgetMSP)
+    COMMITTED_APPROVAL_ACME=$(echo $OUTPUT | jq .approvals.AstuMSP)
+    COMMITTED_APPROVAL_BUDGET=$(echo $OUTPUT | jq .approvals.Astu-ServiceMSP)
 
     # get-package-id.sh  -v "$COMMITTED_CC_VERSION" -n "$COMMITTED_CC_NAME"
     # source $CC2_ENV_FOLDER/get-package-id

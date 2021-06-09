@@ -99,7 +99,7 @@ tls:
 #
 #############################################################################
 csr:
-  cn: budget-peer1
+  cn: astu-service-peer1
   keyrequest:
     algo: ecdsa
     size: 256

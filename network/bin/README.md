@@ -22,10 +22,10 @@ dev-launch.sh           Launches the environment
 
 Test with node & java
 =====================
-set-chain-env.sh   -l node -p $GOPATH/src/chaincode_example02/node -n nodecc -v 1 -C airlinechannel \
+set-chain-env.sh   -l node -p $GOPATH/src/chaincode_example02/node -n nodecc -v 1 -C docschannel \
                    -c '{"Args":["init","a","100","b","300"]}' -q '{"Args":["query","b"]}' -i  '{"Args":["invoke","a","b","5"]}'
 
-set-chain-env.sh   -l java -p $GOPATH/src/chaincode_example02/java -n javacc -v 1 -C airlinechannel \
+set-chain-env.sh   -l java -p $GOPATH/src/chaincode_example02/java -n javacc -v 1 -C docschannel \
                    -c '{"Args":["init","a","100","b","300"]}' -q '{"Args":["query","b"]}' -i  '{"Args":["invoke","a","b","5"]}'
 
 

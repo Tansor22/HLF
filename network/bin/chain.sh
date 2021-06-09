@@ -17,8 +17,8 @@ function usage {
 
 if [ "$FABRIC_CFG_PATH" == "" ]; then 
    echo "This script requires the Environment to be setup!!! Use one of the following:"
-   echo "> source  set-env.sh  acme"
-   echo "> source  set-env.sh  budget"
+   echo "> source  set-env.sh  astu"
+   echo "> source  set-env.sh  astu-service"
    exit
 fi
 
@@ -146,14 +146,14 @@ function update_properties {
         "auto")
             CC2_ENDORSING_PEERS="--peerAddresses=$CORE_PEER_ADDRESS"
             ;;
-        "acme")
-            CC2_ENDORSING_PEERS="--peerAddresses=acme-peer1.acme.com:7051"
+        "astu")
+            CC2_ENDORSING_PEERS="--peerAddresses=astu-admin-peer1.astu.com:7051"
             ;;
-        "budget")
-            CC2_ENDORSING_PEERS="--peerAddresses=budget-peer1.budget.com:8051"
+        "astu-service")
+            CC2_ENDORSING_PEERS="--peerAddresses=astu-service-peer1.astu.com:8051"
             ;;
         "both")
-            CC2_ENDORSING_PEERS="--peerAddresses=acme-peer1.acme.com:7051 --peerAddresses=budget-peer1.budget.com:8051"
+            CC2_ENDORSING_PEERS="--peerAddresses=astu-admin-peer1.astu.com:7051 --peerAddresses=astu-service-peer1.astu.com:8051"
             ;;
         *)
             CC2_ENDORSING_PEERS="--peerAddresses=$CORE_PEER_ADDRESS"
@@ -263,10 +263,10 @@ function cc_approveformyorg {
     # Check if org has already approved
     APPROVAL_PENDING=true
     case "$ORGANIZATION_CONTEXT" in
-        acme) 
+        astu)
               APPROVAL_DONE=$COMMITTED_APPROVAL_ACME
               ;;
-        budget) 
+        astu-service)
               APPROVAL_DONE=$COMMITTED_APPROVAL_BUDGET
               ;;
     esac
@@ -305,7 +305,7 @@ function cc_commit {
     cmd="peer lifecycle chaincode commit -C $CC_CHANNEL_ID -n $CC_NAME -v $CC_VERSION \
          --sequence $CC2_SEQUENCE  $INIT_REQUIRED    $PRIVATE_DATA_JSON  \
             $SIG_POLICY $CHANNEL_CONFIG_POLICY $CC2_ENDORSING_PEERS --waitForEvent"
-        # --peerAddresses=budget-peer1.budget.com:8051  --peerAddresses=acme-peer1.acme.com:7051"
+        # --peerAddresses=astu-service-peer1.astu.com:8051  --peerAddresses=astu-admin-peer1.astu.com:7051"
 
     show_command_execute $cmd
 }
@@ -317,7 +317,7 @@ function cc_init {
     cmd="peer chaincode invoke  -C $CC_CHANNEL_ID -n $CC_NAME -c '$CC_CONSTRUCTOR' \
     --waitForEvent $IS_INIT -o $ORDERER_ADDRESS \
     $CC2_ENDORSING_PEERS"
-    # --peerAddresses=budget-peer1.budget.com:8051  --peerAddresses=acme-peer1.acme.com:7051"
+    # --peerAddresses=astu-service-peer1.astu.com:8051  --peerAddresses=astu-admin-peer1.astu.com:7051"
 
     show_command_execute $cmd
 }
@@ -327,7 +327,7 @@ function cc_invoke {
     cmd="peer chaincode invoke -C $CC_CHANNEL_ID -n $CC_NAME  -c '$CC_INVOKE_ARGS' -o $ORDERER_ADDRESS \
      --waitForEvent \
      $CC2_ENDORSING_PEERS"
-    #  --peerAddresses=budget-peer1.budget.com:8051  --peerAddresses=acme-peer1.acme.com:7051"
+    #  --peerAddresses=astu-service-peer1.astu.com:8051  --peerAddresses=astu-admin-peer1.astu.com:7051"
 
      show_command_execute $cmd
 }

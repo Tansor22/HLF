@@ -74,7 +74,7 @@ function generate_unique_cc_name {
 }
 
 # Sets the organization context
-# $1 = org name e.g., acme | budget
+# $1 = org name e.g., astu | astu-service
 # Does not check the correctness
 function set_org_context {
     print_utest_info  "Switching Org Context to $1"
@@ -273,15 +273,15 @@ if [ "$1" == "utest" ]; then
     set_test_case   "Test assert_not_equal if '100'!= '500'"
     assert_not_equal    "100"   "500"
     
-    # Set the org context to Acme
-    set_test_case   "Test set_org_context for 'acme'"
-    set_org_context "acme"
-    assert_equal    "acme"  $ORGANIZATION_CONTEXT
+    # Set the org context to Astu
+    set_test_case   "Test set_org_context for 'astu'"
+    set_org_context "astu"
+    assert_equal    "astu"  $ORGANIZATION_CONTEXT
 
-    # Set the org context to Acme
-    set_test_case   "Test set_org_context for 'budget'"
-    set_org_context "budget"
-    assert_equal    "budget"  $ORGANIZATION_CONTEXT
+    # Set the org context to Astu
+    set_test_case   "Test set_org_context for 'astu-service'"
+    set_org_context "astu-service"
+    assert_equal    "astu-service"  $ORGANIZATION_CONTEXT
 
     # Test extract_json
     JSON='{"Args":["init","ACFT","1000", "A Cloud Fan Token!!!","raj"]}'

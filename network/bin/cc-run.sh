@@ -27,9 +27,9 @@ echo "+++Building the GoLang chaincode"
 
 export CORE_CHAINCODE_ID_NAME=$CC_NAME:$CC_VERSION
 
-if [ "$ORGANIZATION_CONTEXT" == "acme" ] ; then
+if [ "$ORGANIZATION_CONTEXT" == "astu" ] ; then
     export CORE_PEER_ADDRESS=localhost:7052 
-elif [ "$ORGANIZATION_CONTEXT" == "budget" ] ; then
+elif [ "$ORGANIZATION_CONTEXT" == "astu-service" ] ; then
     export CORE_PEER_ADDRESS=localhost:8052 
 else
     echo "Unknown Organization Context = $ORGANIZATION_CONTEXT....Aborting!!!"

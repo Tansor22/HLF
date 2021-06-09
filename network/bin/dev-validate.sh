@@ -9,12 +9,12 @@ fi
 # Adjust this to higher number if you are getting a timeout
 SLEEP_TIME=1s
 
-#1. Set the environmeent for acme-peer1
-. set-env.sh acme
+#1. Set the environmeent for astu-peer1
+. set-env.sh astu
 echo "ORGANIZATION_CONTEXT=$ORGANIZATION_CONTEXT"
 
 #2. Set the chain code arguments
-set-chain-env.sh   -l golang -p chaincode_example02 -n gocc -v 1 -C airlinechannel \
+set-chain-env.sh   -l golang -p chaincode_example02 -n gocc -v 1 -C docschannel \
                    -c '{"Args":["init","a","100","b","300"]}' -q '{"Args":["query","b"]}' -i  '{"Args":["invoke","a","b","5"]}'
 
 chain.sh package
@@ -31,8 +31,8 @@ fi
 # Query
 chain.sh query
 
-#5. Set the environment for budget
-. set-env.sh budget
+#5. Set the environment for astu-service
+. set-env.sh astu-service
 echo "ORGANIZATION_CONTEXT=$ORGANIZATION_CONTEXT"
 
 
@@ -51,7 +51,7 @@ chain.sh invoke
 sleep  $SLEEP_TIME
 chain.sh query
 
-#8. Switch to acme & query
-. set-env.sh acme
+#8. Switch to astu & query
+. set-env.sh astu
 echo "ORGANIZATION_CONTEXT=$ORGANIZATION_CONTEXT"
 chain.sh query

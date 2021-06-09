@@ -9,4 +9,4 @@ npm install
 cd gateway
 
 # пока что делаем все от админа
-node wallet.js add acme Admin && exit
+node wallet.js add astu Admin && exit
